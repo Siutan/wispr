@@ -37,21 +37,21 @@ export const actions: Actions = {
       expirySelect: string;
       extendCheckbox: string;
     };
-
     // get the record
     const record = await pb.collection("content").getOne(data.itemId);
-
 
     const getExpiry = (expiry: string, extend: string) => {
       // return expiry date in 2022-01-01 10:00:00.123Z format
       // get current record expiry
       const currentExpiry = record.expiry;
       if (extend === "on") {
-        console.log("extend");
         // add the length to the current expiry
         const newExpiry = new Date(currentExpiry);
         newExpiry.setHours(newExpiry.getHours() + parseInt(expiry));
         return newExpiry.toISOString();
+      } else if (!data.expirySelect) {
+        // if no expiry is set, return the current expiry
+        return currentExpiry;
       }
       // return the current expiry + the length
       const currentDate = new Date();
@@ -75,9 +75,7 @@ export const actions: Actions = {
 
 
     // update record with new data
-    const updateData = await pb.collection("content").update(data.itemId, sendData);
-
-
+    await pb.collection("content").update(data.itemId, sendData);
   },
   stop: async ({ locals, request }) => {
     const data = Object.fromEntries(await request.formData()) as {
@@ -101,9 +99,8 @@ export const actions: Actions = {
     };
 
     // update record with new data
-    const updateData = await pb.collection("content").update(data.itemId, sendData);
+    await pb.collection("content").update(data.itemId, sendData);
 
-    console.log(updateData);
   },
   delete: async ({ locals, request }) => {
     const data = Object.fromEntries(await request.formData()) as {
@@ -111,8 +108,6 @@ export const actions: Actions = {
     };
 
     // get the record
-    const record = await pb.collection("content").delete(data.itemId);
-
-    console.log(record);
-  },
+    await pb.collection("content").delete(data.itemId);
+  }
 };
