@@ -119,7 +119,6 @@
                        value={item.name} />
               </div>
               <div class="py-2">
-                <label class="label font-bold text-sm">Type</label>
                 <TypePicker selectedOption={item.type} markdown={item.markdown} password={item.password}
                             file={item.file} />
               </div>

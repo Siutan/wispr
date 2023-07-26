@@ -8,7 +8,9 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <select name="typeSelect" class="select select-primary select-md w-full max-w-xs" bind:value={selectedOption}>
+
+  <label for="typeSelect" class="label font-bold text-sm">Type</label>
+  <select id="typeSelect" name="typeSelect" class="select select-primary select-md w-full max-w-xs" bind:value={selectedOption}>
     <option value="password">Password</option>
     <option value="markdown">Markdown</option>
     <option value="file">File</option>
