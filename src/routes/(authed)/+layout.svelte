@@ -10,15 +10,14 @@
   <div class="hidden sm:flex navbar bg-base-100">
     <div class="navbar-start">
       <span class="btn btn-ghost btn-outline normal-case text-xl m-2">WISPR</span>
-      <ThemeSwitch/>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         <li>
-          <span class="text-lg">Secrets</span>
+          <a href="/secrets" class="text-lg">Secrets</a>
         </li>
         <li>
-          <span class="text-lg">Utilities</span>
+          <a href="utils" class="text-lg">Utilities</a>
         </li>
       </ul>
     </div>
