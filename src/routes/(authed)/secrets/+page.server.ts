@@ -77,7 +77,7 @@ export const actions: Actions = {
     // update record with new data
     await pb.collection("content").update(data.itemId, sendData);
   },
-  stop: async ({ locals, request }) => {
+  stop: async ({ request }) => {
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
       catSelect: string;
@@ -90,9 +90,6 @@ export const actions: Actions = {
       extendCheckbox: string;
     };
 
-    // get the record
-    const record = await pb.collection("content").getOne(data.itemId);
-
     const sendData = {
       expiry: new Date().toISOString(),
       is_active: false
@@ -102,7 +99,7 @@ export const actions: Actions = {
     await pb.collection("content").update(data.itemId, sendData);
 
   },
-  delete: async ({ locals, request }) => {
+  delete: async ({ request }) => {
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
     };

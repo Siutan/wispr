@@ -19,6 +19,13 @@
   dependencies:
     remark-gfm "^3.0.1"
 
+"@bytemd/plugin-highlight@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@bytemd/plugin-highlight/-/plugin-highlight-1.21.0.tgz#b19cc18847eca10b6f254ff2da6e2d072db0738c"
+  integrity sha512-JM9rwzj9pFBXVwxmD9mgGIQPO4cTFVHvDhffS93IMK+tqvo0Vw76zDIqJWT3f421j8iNxffGsVQQs6389u3Z9A==
+  dependencies:
+    highlight.js "^11.7.0"
+
 "@esbuild/android-arm64@0.18.13":
   version "0.18.13"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.18.13.tgz#70ef455455654c7800c31ae55ae295d81712238c"
@@ -1266,6 +1273,11 @@ hastscript@^7.0.0:
     hast-util-parse-selector "^3.0.0"
     property-information "^6.0.0"
     space-separated-tokens "^2.0.0"
+
+highlight.js@^11.7.0:
+  version "11.8.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.8.0.tgz#966518ea83257bae2e7c9a48596231856555bb65"
+  integrity sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==
 
 html-void-elements@^2.0.0:
   version "2.0.1"

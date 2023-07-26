@@ -124,12 +124,12 @@
                             file={item.file} />
               </div>
               <ExpiryPicker currentExpiry={getDateTime(item['expiry'])} />
+              <button type="submit" class="btn btn-primary btn-sm my-2 w-full">Save</button>
               {#if isExpired(item['expiry'])}
                 <button type="submit" class="btn btn-accent btn-sm my-2 w-full">Launch</button>
               {:else}
                 <button formaction="?/stop" type="submit" class="btn btn-error btn-sm my-2 w-full">Stop</button>
               {/if}
-              <button type="submit" class="btn btn-primary btn-sm my-2 w-full">Save</button>
               <button formaction="?/delete" type="submit" class="btn btn-error btn-outline btn-sm my-2 w-full">Delete
               </button>
             </form>

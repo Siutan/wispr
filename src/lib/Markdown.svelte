@@ -1,18 +1,16 @@
 <script>
-  import "bytemd/dist/index.css";
-  import { Editor, Viewer } from "bytemd";
+  import { Editor } from "bytemd";
   import gfm from "@bytemd/plugin-gfm";
+  import highlight from "@bytemd/plugin-highlight";
 
   let value;
 
-  const plugins = [gfm()];
+  const plugins = [gfm(), highlight()];
 
   function handleChange(e) {
     value = e.detail.value;
   }
 </script>
 
-<div class="">
-  <h2 class="text-lg font-bold text-primary">MarkDown Editor:</h2>
-  <Editor {value} {plugins} on:change={handleChange} />
-</div>
+<h2 class="text-lg font-bold text-primary">Markdown Editor:</h2>
+<Editor {value} {plugins} on:change={handleChange} />
