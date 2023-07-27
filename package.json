@@ -39,7 +39,9 @@
   "dependencies": {
     "@bytemd/plugin-gfm": "^1.21.0",
     "@bytemd/plugin-highlight": "^1.21.0",
+    "@types/crypto-js": "^4.1.1",
     "bytemd": "^1.21.0",
+    "crypto-js": "^4.1.1",
     "pocketbase": "^0.15.0"
   }
 }

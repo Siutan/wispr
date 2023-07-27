@@ -3,7 +3,6 @@
   import "../../app.postcss";
   import UserMenu from "$lib/UserMenu.svelte";
   import BottomNav from "$lib/BottomNav.svelte";
-  import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
 </script>
 
 <div class="w-screen h-screen bg-base-100">

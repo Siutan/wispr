@@ -5,6 +5,7 @@
   import { enhance } from "$app/forms";
   import ExpiryPicker from "$lib/ExpiryPicker.svelte";
   import { currentUser, pb } from "$lib/pocketbase";
+  import UrlCopy from "$lib/UrlCopy.svelte";
 
   export let data: Record;
 
@@ -66,16 +67,17 @@
     data.records = [record, ...data.records];
   }
 
-  let search
+  let search;
   // search is the value of the search input field
   $: searchView = search ? data.records.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
-    : data.records
+    : data.records;
 </script>
 
 <div class="w-full h-full p-5 bg-base-200 rounded-xl mb-20">
   <div class="flex gap-4 items-center rounded-xl bg-base-100 p-2 mb-5">
+    <input type="text" class="input input-primary input-sm w-full" bind:value={search} placeholder="Filter records" />
+    <div class="divider divider-horizontal"></div>
     <button class="btn btn-primary btn-sm" on:click={addNew}>Add New</button>
-    <input type="text" class="input input-primary" bind:value={search} placeholder="Filter records" />
   </div>
   {#if data.records.length > 0}
     <div class="flex flex-col gap-5 justify-center items-center">
@@ -112,6 +114,7 @@
             return async ({ update }) => { update({ reset: false})}}}>
               <input type="hidden" name="itemId" value={item.id} />
               <div class="flex flex-col justify-between items-start gap-2">
+                <UrlCopy value={item.id} />
                 <CategoryPicker key={i}
                                 categories={data.categories} currentCategory={item['expand']['category']} />
                 <input name="nameInput" type="text"

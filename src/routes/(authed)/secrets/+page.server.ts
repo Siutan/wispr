@@ -1,6 +1,7 @@
 import { redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
 import { pb } from "$lib/pocketbase";
+import { encrypt } from "$lib/crypt";
+import type { Actions, PageServerLoad } from "./$types";
 import type { Record } from "pocketbase";
 
 export const load: PageServerLoad = (async ({ locals }) => {
@@ -65,13 +66,15 @@ export const actions: Actions = {
       user: user?.id,
       name: data.nameInput,
       type: data.typeSelect,
-      password: data.passwordInput || "",
-      markdown: data.markdownInput || "",
+      password: await encrypt(data.passwordInput) || "",
+      markdown: data.markdownInput ? await encrypt(data.markdownInput) : "",
       file: data.fileInput || "",
       category: data.catSelect,
       expiry: getExpiry(data.expirySelect, data.extendCheckbox),
       is_active: true
     };
+
+    console.log("sendData", sendData)
 
 
     // update record with new data
@@ -80,14 +83,6 @@ export const actions: Actions = {
   stop: async ({ request }) => {
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
-      catSelect: string;
-      nameInput: string;
-      typeSelect: string;
-      passwordInput: string;
-      markdownInput: string;
-      fileInput: string;
-      expirySelect: string;
-      extendCheckbox: string;
     };
 
     const sendData = {
