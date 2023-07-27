@@ -1,8 +1,15 @@
 <script lang="ts">
   import { applyAction, enhance } from "$app/forms";
+  import { PUBLIC_ALLOW_SIGNUP } from "$env/static/public"
   import { pb } from "$lib/pocketbase";
   import { page } from "$app/stores";
+  import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
 </script>
+
+<div class="absolute top-5 left-5">
+  <ThemeSwitch />
+</div>
+
 
 <div class="sm:w-1/3 w-full p-5 m-5 sm:m-0 bg-base-100 rounded-xl">
   <form
@@ -38,11 +45,13 @@
       />
       <button class="btn btn-primary">Log in</button>
     </div>
-    <div class="divider px-20"></div>
-    <div class="flex gap-2 justify-center">
-      <p>Don't have an account?</p>
-      <a href="/register" class="text-primary">Register</a>
+    {#if PUBLIC_ALLOW_SIGNUP !== "false"}
+      <div class="divider px-20"></div>
+      <div class="flex gap-2 justify-center">
+        <p>Don't have an account?</p>
+        <a href="/register" class="text-primary">Register</a>
     </div>
+    {/if}
   </form>
 
 </div>

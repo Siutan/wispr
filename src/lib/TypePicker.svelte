@@ -1,9 +1,18 @@
 <script lang="ts">
-
   export let selectedOption = 'password';
   export let password: string;
   export let markdown: string;
   export let file: File;
+
+  // toggle view of password
+  const togglePassword = () => {
+    const passwordInput = document.querySelector('input[name="passwordInput"]');
+    if (passwordInput.getAttribute('type') === 'password') {
+      passwordInput.setAttribute('type', 'text');
+    } else {
+      passwordInput.setAttribute('type', 'password');
+    }
+  }
 
 </script>
 
@@ -17,9 +26,12 @@
   </select>
 
   {#if selectedOption === 'password'}
-    <input name="passwordInput" value={password} class="input input-primary" type="password" placeholder="Enter your password" />
+    <div class="flex gap-2 items-center w-full ">
+      <input name="passwordInput" value={password} class="input input-primary" type="password" placeholder="Enter your password" />
+      <button class="btn btn-primary" on:click={togglePassword}>View</button>
+    </div>
   {:else if selectedOption === 'markdown'}
-    <textarea name="markdownInput" value={markdown} class="textarea textarea-primary" placeholder="Enter markdown content"></textarea>
+    <textarea name="markdownInput" class="textarea textarea-primary" placeholder="Enter markdown content">{markdown}</textarea>
   {:else if selectedOption === 'file'}
     <input name="fileInput" value={file|| null} class="file-input file-input-ghost file-sm w-full max-w-xs" type="file" />
   {/if}

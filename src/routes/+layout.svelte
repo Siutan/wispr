@@ -3,6 +3,7 @@
 </script>
 
 
+
 <div class="flex justify-center items-center w-screen h-screen dashed-grid-paper bg-base-200">
     <slot />
 </div>

@@ -4,8 +4,6 @@
 
   export let data;
 
-  console.log("DATA:", data.record);
-
 </script>
 
 <div class="absolute top-5 left-5">

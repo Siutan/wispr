@@ -6,6 +6,7 @@
 - [Introduction](#wispr---password-sharing-tool)
 - [Features](#features)
 - [Installation](#installation)
+- [Todo](#todo) 
 - [License](#license) 
 
 
@@ -54,6 +55,18 @@ npm install
 yarn dev
 npm run dev
 ```
+
+---
+
+## Todo
+- [ ] Create a user
+- [ ] Allow user to delete all passwords/markdown/files
+- [ ] Allow user to delete account
+- [ ] Allow user to change password
+- [ ] Allow user to change email
+- [ ] Explore OAuth
+- [ ] Explore 2FA
+- [ ] Add password protection to view files
 
 ---
 

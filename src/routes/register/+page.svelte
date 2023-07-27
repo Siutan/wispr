@@ -2,7 +2,12 @@
   import { applyAction, enhance } from "$app/forms";
   import { pb } from "$lib/pocketbase";
   import { page } from "$app/stores";
+  import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
 </script>
+
+<div class="absolute top-5 left-5">
+  <ThemeSwitch />
+</div>
 
 <div class="sm:w-1/3 w-full p-5 m-5 sm:m-0 bg-base-100 rounded-xl">
   <form

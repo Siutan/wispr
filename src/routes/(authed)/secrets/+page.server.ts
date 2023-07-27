@@ -1,6 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import { pb } from "$lib/pocketbase";
-import { encrypt } from "$lib/crypt";
+import { decrypt, encrypt } from "$lib/crypt";
 import type { Actions, PageServerLoad } from "./$types";
 import type { Record } from "pocketbase";
 
@@ -14,6 +14,16 @@ export const load: PageServerLoad = (async ({ locals }) => {
     sort: "-created",
     expand: "category"
   });
+
+  // decrypt all the passwords or markdown
+  for (const record of contentRecords) {
+    if (record.password) {
+      record.password = await decrypt(record.password);
+    }
+    if (record.markdown) {
+      record.markdown = await decrypt(record.markdown);
+    }
+  }
 
   const categories = await pb.collection("categories").getFullList();
 
@@ -73,8 +83,6 @@ export const actions: Actions = {
       expiry: getExpiry(data.expirySelect, data.extendCheckbox),
       is_active: true
     };
-
-    console.log("sendData", sendData)
 
 
     // update record with new data
