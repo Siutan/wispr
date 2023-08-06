@@ -36,7 +36,40 @@ export const load: PageServerLoad = (async ({ locals }) => {
 
 
 export const actions: Actions = {
-  update: async ({ locals, request }) => {
+  save: async ({ locals, request }) => {
+    console.log("RUNNING SAVE");
+    const data = Object.fromEntries(await request.formData()) as {
+      itemId: string;
+      catSelect: string;
+      nameInput: string;
+      typeSelect: string;
+      passwordInput: string;
+      markdownInput: string;
+      fileInput: string;
+    };
+
+    const user = locals.pb.authStore.model;
+
+    const sendData = {
+      user: user?.id,
+      name: data.nameInput,
+      type: data.typeSelect,
+      password: await encrypt(data.passwordInput) || "",
+      markdown: data.markdownInput ? await encrypt(data.markdownInput) : "",
+      file: data.fileInput || "",
+      category: data.catSelect
+    };
+
+
+    // update record with new data
+    try {
+      await pb.collection("content").update(data.itemId, sendData);
+    } catch (e: unknown) {
+      console.log(e);
+    }
+  },
+  launch: async ({ locals, request }) => {
+    console.log("RUNNING LAUNCH");
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
       catSelect: string;
@@ -86,9 +119,14 @@ export const actions: Actions = {
 
 
     // update record with new data
-    await pb.collection("content").update(data.itemId, sendData);
+    try {
+      await pb.collection("content").update(data.itemId, sendData);
+    } catch (e: unknown) {
+      console.log(e);
+    }
   },
   stop: async ({ request }) => {
+    console.log("RUNNING STOP");
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
     };
@@ -99,15 +137,24 @@ export const actions: Actions = {
     };
 
     // update record with new data
-    await pb.collection("content").update(data.itemId, sendData);
+    try {
+      await pb.collection("content").update(data.itemId, sendData);
+    } catch (e: unknown) {
+      console.log(e);
+    }
 
   },
   delete: async ({ request }) => {
+    console.log("RUNNING DELETE")
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
     };
 
     // get the record
-    await pb.collection("content").delete(data.itemId);
+    try {
+      await pb.collection("content").delete(data.itemId);
+    } catch (e: unknown) {
+      console.log(e);
+    }
   }
 };

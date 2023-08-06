@@ -8,22 +8,17 @@ export const load: PageServerLoad = (async ({ params }) => {
   const id = params.id;
   const contentRecord = await pb.collection("content").getOne(id);
 
-  if (!contentRecord) {
-    throw error(404, {
-      message: 'Not found'
-    });
-  }
+  const now = new Date();
+  const expiry = new Date(contentRecord.expiry);
 
-  if (contentRecord.expiry < new Date()) {
-    return {
-      status: 404,
-      error: new Error("Record expired")
-    }
+  if (expiry < now) {
+    throw error(404, {
+      message: "Not found"
+    });
   } else if (!contentRecord) {
-    return {
-      status: 404,
-      error: new Error("Record not found")
-    }
+    throw error(404, {
+      message: "Not found"
+    });
   }
 
   if (contentRecord.type === "password") {
@@ -34,5 +29,5 @@ export const load: PageServerLoad = (async ({ params }) => {
 
   return {
     record: JSON.parse(JSON.stringify(contentRecord))
-  }
+  };
 }) satisfies PageServerLoad;

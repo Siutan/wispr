@@ -110,14 +110,17 @@
             </div>
           </summary>
           <div class="collapse-content bg-base-100 px-3 py-5">
-            <form method="POST" action="?/update" use:enhance={() => {
-            return async ({ update }) => { update({ reset: false})}}}>
+            <form method="POST" action="?/save" use:enhance={() => {
+                return async ({ update }) => {
+                  await update({ reset: false });
+                };
+              }}>
               <input type="hidden" name="itemId" value={item.id} />
               <div class="flex flex-col justify-between items-start gap-2">
                 <UrlCopy value={item.id} />
-                <CategoryPicker key={i}
-                                categories={data.categories} currentCategory={item['expand']['category']} />
-                <input name="nameInput" type="text"
+                <CategoryPicker key={i} categories={data.categories} currentCategory={item['expand']['category']} />
+                <label for="nameInput" class="label font-bold text-sm">Name</label>
+                <input id="nameInput" name="nameInput" type="text"
                        class="input input-bordered input-primary w-full focus:outline-none"
                        value={item.name} />
               </div>
@@ -128,7 +131,7 @@
               <ExpiryPicker currentExpiry={getDateTime(item['expiry'])} />
               <button type="submit" class="btn btn-primary btn-sm my-2 w-full">Save</button>
               {#if isExpired(item['expiry'])}
-                <button type="submit" class="btn btn-accent btn-sm my-2 w-full">Launch</button>
+                <button formaction="?/launch" class="btn btn-accent btn-sm my-2 w-full">Launch</button>
               {:else}
                 <button formaction="?/stop" type="submit" class="btn btn-error btn-sm my-2 w-full">Stop</button>
               {/if}
