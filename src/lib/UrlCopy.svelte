@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
 
   export let value = "";
+  export let prefix = "";
   let copied = false;
   let url = ``;
 
@@ -11,7 +12,7 @@
     // get the base url
     const baseUrl = url.split("/").slice(0, 3).join("/");
 
-    value = `${baseUrl}/view/${value}`;
+    value = `${baseUrl}/${prefix}/${value}`;
   });
 
   function copyToClipboard() {

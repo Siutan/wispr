@@ -12,5 +12,5 @@
   }
 </script>
 
-<h2 class="text-lg font-bold text-primary">Markdown Editor:</h2>
+<h2 class="text-lg font-bold text-primary">Markdown Editor: </h2>
 <Editor {value} {plugins} on:change={handleChange} />

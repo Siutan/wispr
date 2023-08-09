@@ -14,21 +14,14 @@
   }
 </script>
 
-<div class="flex flex-col gap-5 p-5">
+<div class="flex flex-col gap-10 p-5">
   <h2 class="text-lg font-bold text-primary">Password Generator:</h2>
   <input type="text" class="input input-primary" id="code" readonly bind:value={password} />
   <div class="flex gap-3 items-center">
     <p>Password length:</p>
     <span class="badge badge-primary font-bold">{passwordLength}</span>
   </div>
-  <input type="range" min="10" max="30" bind:value={passwordLength} class="range range-primary" step="5" />
-  <div class="w-full flex justify-between text-xs px-1">
-    <span>|</span>
-    <span>|</span>
-    <span>|</span>
-    <span>|</span>
-    <span>|</span>
-  </div>
+  <input type="range" min="10" max="30" bind:value={passwordLength} class="range range-primary" step="1" />
   <div class="join join-vertical">
     <div class="form-control join-item">
       <label class="label cursor-pointer">

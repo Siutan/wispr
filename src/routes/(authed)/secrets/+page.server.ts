@@ -37,7 +37,6 @@ export const load: PageServerLoad = (async ({ locals }) => {
 
 export const actions: Actions = {
   save: async ({ locals, request }) => {
-    console.log("RUNNING SAVE");
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
       catSelect: string;
@@ -69,7 +68,6 @@ export const actions: Actions = {
     }
   },
   launch: async ({ locals, request }) => {
-    console.log("RUNNING LAUNCH");
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
       catSelect: string;
@@ -126,7 +124,6 @@ export const actions: Actions = {
     }
   },
   stop: async ({ request }) => {
-    console.log("RUNNING STOP");
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
     };
@@ -145,7 +142,6 @@ export const actions: Actions = {
 
   },
   delete: async ({ request }) => {
-    console.log("RUNNING DELETE")
     const data = Object.fromEntries(await request.formData()) as {
       itemId: string;
     };

@@ -69,8 +69,8 @@
 
   let search;
   // search is the value of the search input field
-  $: searchView = search ? data.records.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
-    : data.records;
+  $: searchView = search ? data?.records.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+    : data?.records;
 </script>
 
 <div class="w-full h-full p-5 bg-base-200 rounded-xl mb-20">
@@ -117,7 +117,7 @@
               }}>
               <input type="hidden" name="itemId" value={item.id} />
               <div class="flex flex-col justify-between items-start gap-2">
-                <UrlCopy value={item.id} />
+                <UrlCopy prefix="view" value={item.id} />
                 <CategoryPicker key={i} categories={data.categories} currentCategory={item['expand']['category']} />
                 <label for="nameInput" class="label font-bold text-sm">Name</label>
                 <input id="nameInput" name="nameInput" type="text"
