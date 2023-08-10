@@ -13,7 +13,6 @@
       await update()
     }
   }
-
 </script>
 
 <!-- url shortener -->
