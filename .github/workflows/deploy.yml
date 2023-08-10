@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v43
+        uses: actions/checkout@v3
 
       - name: Connect to Droplet
         uses: appleboy/ssh-action@v1.0.0
