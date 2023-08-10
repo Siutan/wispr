@@ -36,5 +36,5 @@
 
 <div class="flex items-center gap-2">
   <input {value} class="input input-primary cursor-pointer sm:w-96" disabled />
-  <button class="btn btn-accent btn-sm sm:btn-md" on:click={copyToClipboard}>Copy</button>
+  <button class="btn btn-accent btn-sm sm:btn-md" on:click|preventDefault={copyToClipboard}>Copy</button>
 </div>

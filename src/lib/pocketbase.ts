@@ -12,4 +12,8 @@ export const apiRoutes = {
     const user = pb.authStore.model
     return `${PUBLIC_POCKETBASE_URL}/api/files/${user?.collectionId}/${user?.id}/${user?.avatar}`
   },
+  Username: () => {
+    const user = pb.authStore.model
+    return `${user?.username}`
+  },
 }

@@ -18,7 +18,7 @@
 - Keep a history of your passwords
 - Generate strong passwords
 - Store markdown files and other files securely
-- Share files securely
+- Shorten urls with the click of a button
 
 ---
 
@@ -59,13 +59,11 @@ npm run dev
 ---
 
 ## Todo
-- [ ] Create a user
-- [ ] Allow user to delete all passwords/markdown/files
-- [ ] Allow user to delete account
+- [x] Create a user Setting page
+- [x] Allow user to delete account
 - [ ] Allow user to change password
 - [ ] Allow user to change email
 - [ ] Explore OAuth
-- [ ] Explore 2FA
 - [ ] Add password protection to view files
 
 ---
