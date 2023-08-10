@@ -1,0 +1,39 @@
+name: Deploy Wispr
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v43
+
+      - name: Connect to Droplet
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.DROPLET_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Backup existing data
+            mv wispr .wispr-old
+            
+            # Stop and remove existing container
+            docker stop wispr-container || true
+            docker rm wispr-container || true
+            
+            # Remove existing image
+            docker rmi wispr-image || true
+            
+            # Build and run new container
+            docker build -t wispr .
+            docker run -d -p 5173:3000 --name wispr-container wispr
+
+    env:
+      DOCKER_BUILDKIT: 1
