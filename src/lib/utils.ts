@@ -38,8 +38,8 @@ export const generatePassword = async (length: number, upper: boolean, lower: bo
   // Get the browser's crypto object for generating random numbers.
   const crypto = window.crypto || (window as any).msCrypto; // For compatibility with IE11.
 
-  // Generate random values and store them in the buffer.
-  const array = await crypto.getRandomValues(buffer);
+  // Generate random values and stores them in the buffer.
+  const array = crypto.getRandomValues(buffer);
 
   // Initialize an empty string to hold the generated password.
   let password = "";

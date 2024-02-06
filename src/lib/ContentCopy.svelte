@@ -1,8 +1,8 @@
 <script lang="ts">
   import Toast from "$lib/Toast.svelte";
+  import { addToast, removeToast, toasts } from "$lib/stores/toastStore";
 
   export let value = "";
-  let copied = false;
 
   function copyToClipboard() {
     const textarea = document.createElement("textarea");
@@ -11,16 +11,19 @@
     textarea.select();
     document.execCommand("copy");
     document.body.removeChild(textarea);
-    copied = true;
-
-    setTimeout(() => {
-      copied = false;
-    }, 1500);
+    addToast({
+      message: "Copied to clipboard",
+      type: "success",
+      dismissable: true,
+      duration: 3000
+    });
   }
 </script>
 
-{#if copied}
-  <Toast content="Copied!" />
+{#if $toasts}
+  {#each $toasts as toast (toast.id)}
+    <Toast type={toast.type} message={toast.message} on:dismiss={() => removeToast(toast.id)} />
+  {/each}
 {/if}
 
 

@@ -1,14 +1,14 @@
 <script lang="ts">
   import Toast from "$lib/Toast.svelte";
   import { onMount } from "svelte";
+  import { addToast, removeToast, toasts } from "$lib/stores/toastStore";
 
   export let value = "";
   export let prefix = "";
-  let copied = false;
   let url = ``;
 
   onMount(() => {
-    url = window.location.href
+    url = window.location.href;
     // get the base url
     const baseUrl = url.split("/").slice(0, 3).join("/");
 
@@ -22,15 +22,21 @@
     textarea.select();
     document.execCommand("copy");
     document.body.removeChild(textarea);
-    copied = true;
-    setTimeout(() => {
-      copied = false;
-    }, 1500);
+    addToast({
+      message: "Copied to clipboard",
+      type: "success",
+      dismissable: true,
+      duration: 3000
+    });
   }
+
+
 </script>
 
-{#if copied}
-  <Toast content="Copied!" />
+{#if $toasts}
+  {#each $toasts as toast (toast.id)}
+    <Toast type={toast.type} message={toast.message} on:dismiss={() => removeToast(toast.id)} />
+  {/each}
 {/if}
 
 
