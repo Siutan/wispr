@@ -1,22 +1,11 @@
 <script lang="ts">
   import type { Record } from "pocketbase";
-  import CategoryPicker from "$lib/CategoryPicker.svelte";
-  import TypePicker from "$lib/TypePicker.svelte";
-  import { enhance } from "$app/forms";
-  import ExpiryPicker from "$lib/ExpiryPicker.svelte";
   import { currentUser, pb } from "$lib/pocketbase";
-  import UrlCopy from "$lib/UrlCopy.svelte";
+  import RecordItem from "$lib/components/RecordItem.svelte";
+  import { selectedRecord } from "$lib/stores/recordStore";
+  import RecordDetail from "$lib/components/RecordDetail.svelte";
 
   export let data: Record;
-
-  function getDate(datetime: string): string {
-    const dateObj = new Date(datetime);
-    const year = dateObj.getUTCFullYear();
-    const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
-    const day = dateObj.getUTCDate().toString().padStart(2, "0");
-
-    return `${day}/${month}/${year}`;
-  }
 
   function getDateTime(inputDateTime: string): string {
     const dateTime = new Date(inputDateTime);
@@ -30,12 +19,6 @@
     };
 
     return new Intl.DateTimeFormat("en-US", options).format(dateTime);
-  }
-
-  function isExpired(expiry: string): boolean {
-    const dateObj = new Date(expiry);
-    const today = new Date();
-    return dateObj < today;
   }
 
   async function addNew() {
@@ -59,6 +42,8 @@
     };
     const sendData = await pb.collection("content").create(newRecord);
 
+    console.log(sendData);
+
     const record = await pb.collection("content").getOne(sendData.id, ({
       sort: "-created",
       expand: "category"
@@ -67,82 +52,45 @@
     data.records = [record, ...data.records];
   }
 
-  let search;
+  let search: string;
   // search is the value of the search input field
   $: searchView = search ? data?.records.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
     : data?.records;
 </script>
 
-<div class="w-full h-full p-5 bg-base-200 rounded-xl mb-20">
-  <div class="flex gap-4 items-center rounded-xl bg-base-100 p-2 mb-5">
-    <input type="text" class="input input-primary input-sm w-full" bind:value={search} placeholder="Filter records" />
-    <div class="divider divider-horizontal"></div>
-    <button class="btn btn-primary btn-sm" on:click={addNew}>Add New</button>
-  </div>
-  {#if data.records.length > 0}
-    <div class="flex flex-col gap-5 justify-center items-center">
-      {#each searchView as item, i}
-        <details class="collapse bg-base-200 ">
-          <summary class="text-xl font-medium">
-            <div class="bg-base-100 p-3">
-              <div class="flex flex-row items-center justify-between">
-                <div class="flex gap-2">
-                  <div
-                    class={`w-10 h-10 rounded-full ${item['expand']['category']['cat_color']}`}>
-                    <div class="flex flex-row items-center justify-center h-full">
-                      <p
-                        class="text-sm font-bold text-white mix-blend-difference">
-                        {item['expand']['category']['cat_name'][0]}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex flex-row items-center">
-                    <div class="flex flex-col">
-                      <p class="text-sm sm:text-lg font-bold text-primary ">{item.name}</p>
-                      <p class="text-sm text-gray-400">{getDate(item.created)}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex flex-col items-center">
-                  <p class="btn btn-primary btn-xs">Edit</p>
-                </div>
-              </div>
-            </div>
-          </summary>
-          <div class="collapse-content bg-base-100 px-3 py-5">
-            <form method="POST" action="?/save" use:enhance={() => {
-                return async ({ update }) => {
-                  await update({ reset: false });
-                };
-              }}>
-              <input type="hidden" name="itemId" value={item.id} />
-              <div class="flex flex-col justify-between items-start gap-2">
-                <UrlCopy prefix="view" value={item.id} />
-                <CategoryPicker key={i} categories={data.categories} currentCategory={item['expand']['category']} />
-                <label for="nameInput" class="label font-bold text-sm">Name</label>
-                <input id="nameInput" name="nameInput" type="text"
-                       class="input input-bordered input-primary w-full focus:outline-none"
-                       value={item.name} />
-              </div>
-              <div class="py-2">
-                <TypePicker selectedOption={item.type} markdown={item.markdown} password={item.password}
-                            file={item.file} />
-              </div>
-              <ExpiryPicker currentExpiry={getDateTime(item['expiry'])} />
-              <button type="submit" class="btn btn-primary btn-sm my-2 w-full">Save</button>
-              {#if isExpired(item['expiry'])}
-                <button formaction="?/launch" class="btn btn-accent btn-sm my-2 w-full">Launch</button>
-              {:else}
-                <button formaction="?/stop" type="submit" class="btn btn-error btn-sm my-2 w-full">Stop</button>
-              {/if}
-              <button formaction="?/delete" type="submit" class="btn btn-error btn-outline btn-sm my-2 w-full">Delete
-              </button>
-            </form>
-          </div>
-        </details>
-      {/each}
+<div class="flex gap-4">
+  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl mb-20">
+    <div class="flex items-center rounded-xl bg-base-100 p-2 mb-5">
+      <input type="text" class="input input-primary input-md w-full" bind:value={search} placeholder="Filter records" />
+      <div class="divider divider-horizontal"></div>
+      <button class="btn btn-primary btn-md" on:click={addNew}>Add New</button>
     </div>
-  {:else }
-    <p>No data</p>
-  {/if}
+    {#if data.records.length > 0}
+      <div class="space-y-4">
+        {#each searchView as record}
+          <RecordItem
+            id={record.id}
+            name={record.name}
+            type={record.type}
+            categoryName={record.expand.category.cat_name}
+            categoryColour={record.expand.category.cat_color}
+            expiry={getDateTime(record.expiry)}
+          />
+        {/each}
+      </div>
+    {:else }
+      <p>No data</p>
+    {/if}
+  </div>
+  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl mb-20">
+    {#if $selectedRecord}
+      <RecordDetail />
+    {:else }
+      <div class="flex flex-col gap-5 justify-center items-center">
+        <h1 class="text-2xl font-bold text-primary">Welcome, {$currentUser?.name}</h1>
+        <p class="text-lg text-gray-400">You have {data.records.length} records</p>
+        <p class="text-lg text-gray-400">Select a record or create a new one to see it here</p>
+      </div>
+    {/if}
+  </div>
 </div>

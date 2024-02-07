@@ -1,3 +1,20 @@
+
+
+export const isExpired = (expiry: string): boolean => {
+  const dateObj = new Date(expiry);
+  const today = new Date();
+  return dateObj < today;
+}
+
+export const getDate = (datetime: string): string => {
+  const dateObj = new Date(datetime);
+  const year = dateObj.getUTCFullYear();
+  const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = dateObj.getUTCDate().toString().padStart(2, "0");
+
+  return `${day}/${month}/${year}`;
+}
+
 export const generatePassword = async (length: number, upper: boolean, lower: boolean, numerical: boolean, special: boolean): Promise<string> => {
   if (!length) {
     length = 10;
