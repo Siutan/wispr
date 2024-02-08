@@ -3,8 +3,11 @@
   import { pb } from "$lib/pocketbase.js";
   import { getDate, isExpired } from "$lib/utils.js";
   import TypeSelector from "$lib/components/TypeSelector.svelte";
+  import NameEdit from "$lib/components/NameEdit.svelte";
+  import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
+  import CategorySelector from "$lib/components/CategorySelector.svelte";
 
-  let record: any;
+  let record: RecordDetails;
   let loading = false;
 
   selectedRecord.subscribe(value => {
@@ -13,22 +16,17 @@
       getRecord(value).then((res) => {
         record = res;
         loading = false;
-        console.log(record);
       });
     }
   });
 
   async function getRecord(id: string) {
-    return await pb.collection("content").getOne(id, ({
+    const response = await pb.collection("content").getOne(id, ({
       sort: "-created",
       expand: "category"
     }));
-  }
 
-  let editName = false;
-
-  $: if (editName) {
-    console.log("editing");
+    return mapRecordDetails(response)
   }
 
 </script>
@@ -39,23 +37,17 @@
       <span class="loading loading-ring loading-lg"></span>
     </div>
   {:else}
-    <div>
-      <div class="flex gap-2">
-        <h1 id="nameBox" class="text-2xl text-primary font-bold" contenteditable={editName}>
-          {record.name}
-        </h1>
-        <button class="btn btn-sm btn-outline"
-                on:click={() => editName = !editName}>{editName ? "Done" : "Edit"}</button>
-      </div>
+    <div class="w-full">
+      <NameEdit recordName={record.name}/>
       <div class="flex flex-col gap-2 w-fit">
         <p class="text-secondary/50">{record.id}</p>
-        <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md bg-secondary">{record.type}</p>
-        <TypeSelector type={record.type}/>
-        <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md {record.expand.category.cat_color}">{record.expand.category.cat_name}</p>
+        <TypeSelector type={record.type} />
+        <CategorySelector categoryId={record.categoryId} categoryColor={record.categoryColor}/>
         {#if isExpired(record.expiry)}
           <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md bg-error">Expired</p>
         {:else}
-          <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md bg-accent">Expires: {getDate(record.expiry)}</p>
+          <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md bg-accent">
+            Expires: {getDate(record.expiry)}</p>
         {/if}
       </div>
     </div>

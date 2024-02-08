@@ -1,4 +1,5 @@
-import { type Writable, writable } from "svelte/store";
+import { writable } from "svelte/store";
+import type { RecordDetails } from "$lib/types/record";
 
-export const selectedRecord: Writable<string> = writable('');
-
+export const selectedRecord = writable<string>("");
+export const recordDetails = writable<RecordDetails>();

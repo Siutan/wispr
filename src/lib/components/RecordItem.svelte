@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { selectedRecord } from "$lib/stores/recordStore";
+  import { selectedRecord, recordDetails } from "$lib/stores/recordStore";
+  import { getDate, isExpired } from "$lib/utils";
 
   export let id: string;
   export let name: string;
@@ -8,25 +9,22 @@
   export let categoryColour: string;
   export let expiry: string;
 
-  function isExpired(expiry: string): boolean {
-    const dateObj = new Date(expiry);
-    const today = new Date();
-    return dateObj < today;
-  }
-
-  function getDate(datetime: string): string {
-    const dateObj = new Date(datetime);
-    const year = dateObj.getUTCFullYear();
-    const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
-    const day = dateObj.getUTCDate().toString().padStart(2, "0");
-
-    return `${day}/${month}/${year}`;
-  }
-
   function handleView() {
-    console.log("Viewing:", id);
     selectedRecord.set(id);
   }
+
+  // Subscribe to the record details store and update the values when the id matches
+  // this is to ensure that the values are updated when a change occurs
+  recordDetails.subscribe((value) => {
+    if (value?.id === id) {
+      name = value.name;
+      type = value.type;
+      categoryName = value.categoryName;
+      categoryColour = value.categoryColor;
+      expiry = value.expiry;
+    }
+  });
+
 
 </script>
 
