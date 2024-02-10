@@ -1,55 +1,50 @@
 <script lang="ts">
+  import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
   import { pb } from "$lib/pocketbase";
   import { recordDetails, selectedRecord } from "$lib/stores/recordStore";
-  import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
   import { debounce } from "$lib/utils";
 
-  export let recordName: string;
+  export let password: string;
 
-  let timer: number;
   let editing = false;
   let loading = false;
-  let errorMessage: string;
-  let previousName = recordName;
+  let errorMessage = "";
+  let previousPassword = password;
 
-
-  // debounce input
   function handleInput() {
     editing = true;
-    if (recordName === previousName) {
+    if (password === previousPassword) {
       return;
     }
-    if (recordName.trim() === "") {
-      errorMessage = "Name cannot be empty";
-      return;
-    }
-    if (recordName.length > 50) {
-      errorMessage = "Name cannot be more than 50 characters";
+    if (password.trim() === "") {
+      errorMessage = "Password must be at least 1 character long.";
       return;
     }
     errorMessage = "";
-    debounce(1000, saveName)();
+    debounce(1000, savePassword)();
   }
 
-  async function saveName() {
+  async function savePassword() {
     if (editing) {
       loading = true;
       const request: RecordDetails = await pb.collection("content")
-        .update($selectedRecord, { name: recordName }, {
+        .update($selectedRecord, { password: password }, {
           expand: "category"
         });
       recordDetails.set(mapRecordDetails(request));
     }
     editing = false;
     loading = false;
-    previousName = recordName;
+    previousPassword = password;
   }
 </script>
 
-<div class="w-full flex gap-2 justify-between">
+
+<div class="flex gap-4 w-full">
   <input
-    class="w-full text-2xl text-primary font-bold bg-transparent border-transparent focus:border-transparent focus:ring-0"
-    bind:value={recordName}
+    type="password"
+    class="w-1/2 input input-primary"
+    bind:value={password}
     on:keyup={handleInput}
   />
   {#if loading}

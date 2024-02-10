@@ -1,4 +1,15 @@
 
+export function debounce(delay: number, func: Function) {
+  let timer: number;
+  return function() {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      func();
+    }, delay);
+  }
+}
 
 export const isExpired = (expiry: string): boolean => {
   const dateObj = new Date(expiry);

@@ -2,6 +2,7 @@ export interface RecordDetails {
   id: string;
   name: string;
   type: string;
+  password: string;
   markdown: string;
   categoryId: string;
   categoryName: string;
@@ -17,6 +18,7 @@ export const mapRecordDetails = (data: any): RecordDetails => {
     id: data.id,
     name: data.name,
     type: data.type,
+    password: data.password,
     markdown: data.markdown,
     categoryId: data.category,
     categoryName: data.expand.category.cat_name,

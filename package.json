@@ -43,6 +43,7 @@
     "@types/crypto-js": "^4.1.1",
     "bytemd": "^1.21.0",
     "crypto-js": "^4.1.1",
-    "pocketbase": "^0.15.0"
+    "pocketbase": "^0.15.0",
+    "svelte-exmarkdown": "^3.0.3"
   }
 }
