@@ -5,7 +5,7 @@
   import BottomNav from "$lib/BottomNav.svelte";
 </script>
 
-<div class="w-screen h-screen bg-base-100">
+<div class="w-screen h-screen bg-base-100 overflow-hidden">
   <div class="hidden sm:flex navbar bg-base-100">
     <div class="navbar-start">
       <span class="btn btn-ghost btn-outline normal-case text-xl m-2">WISPR</span>

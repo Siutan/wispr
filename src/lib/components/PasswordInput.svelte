@@ -17,7 +17,7 @@
       return;
     }
     if (password.trim() === "") {
-      errorMessage = "Password must be at least 1 character long.";
+      errorMessage = "Password cannot be empty";
       return;
     }
     errorMessage = "";

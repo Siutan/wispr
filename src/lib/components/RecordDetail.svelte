@@ -8,6 +8,7 @@
   import CategorySelector from "$lib/components/CategorySelector.svelte";
   import PasswordInput from "$lib/components/PasswordInput.svelte";
   import MarkdownInput from "$lib/components/MarkdownInput.svelte";
+  import DateSelector from "$lib/components/DateSelector.svelte";
 
   let record: RecordDetails;
   let loading = false;
@@ -39,7 +40,7 @@
 
 </script>
 
-<div class="flex flex-1 h-full">
+<div class="flex flex-1 h-full ">
   {#if loading}
     <div class="flex items-center justify-center w-full h-full">
       <span class="loading loading-ring loading-lg"></span>
@@ -51,12 +52,7 @@
         <p class="text-secondary/50">{record.id}</p>
         <TypeSelector type={record.type} />
         <CategorySelector categoryId={record.categoryId} categoryColor={record.categoryColor} />
-        {#if isExpired(record.expiry)}
-          <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md bg-error">Expired</p>
-        {:else}
-          <p class="text-sm text-base-100 capitalize py-1 px-2 rounded-md bg-accent">
-            Expires: {getDate(record.expiry)}</p>
-        {/if}
+        <DateSelector currentExpiry={record.expiry}/>
       </div>
       <div class="w-full mt-4">
         {#if record.type === "password" }
@@ -69,7 +65,7 @@
         {:else if record.type === "markdown" }
           <div class="w-full">
             <p class="text-secondary/50">Markdown</p>
-            <MarkdownInput markdown={record.markdown} />
+            <MarkdownInput md={record.markdown} />
           </div>
         {/if}
       </div>

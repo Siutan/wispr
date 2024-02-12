@@ -1,6 +1,5 @@
 const daisyui = require('daisyui')
 const typography = require('@tailwindcss/typography')
-const forms = require('@tailwindcss/forms')
 
 const config = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -17,7 +16,7 @@ const config = {
     'bg-red-200',
   ],
 
-  plugins: [forms, typography, daisyui],
+  plugins: [typography, daisyui],
   daisyui: {
     themes: [
       {

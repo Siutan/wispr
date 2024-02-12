@@ -59,7 +59,7 @@
 </script>
 
 <div class="flex gap-4">
-  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl mb-20">
+  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl">
     <div class="flex items-center rounded-xl bg-base-100 p-2 mb-5">
       <input type="text" class="input input-primary input-md w-full" bind:value={search} placeholder="Filter records" />
       <div class="divider divider-horizontal"></div>
@@ -82,11 +82,11 @@
       <p>No data</p>
     {/if}
   </div>
-  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl mb-20">
+  <div class="w-1/2 p-5 bg-base-200 rounded-xl flex-grow">
     {#if $selectedRecord}
       <RecordDetail />
     {:else }
-      <div class="flex flex-col gap-5 justify-center items-center">
+      <div class="flex h-full flex-col gap-5 justify-center items-center">
         <h1 class="text-2xl font-bold text-primary">Welcome, {$currentUser?.name}</h1>
         <p class="text-lg text-gray-400">You have {data.records.length} records</p>
         <p class="text-lg text-gray-400">Select a record or create a new one to see it here</p>

@@ -6,7 +6,6 @@
 
   export let recordName: string;
 
-  let timer: number;
   let editing = false;
   let loading = false;
   let errorMessage: string;
