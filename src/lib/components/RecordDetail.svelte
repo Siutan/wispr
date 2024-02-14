@@ -10,6 +10,7 @@
   import MarkdownInput from "$lib/components/MarkdownInput.svelte";
   import DateSelector from "$lib/components/DateSelector.svelte";
   import StopSharing from "$lib/components/StopSharing.svelte";
+  import DeleteRecord from "$lib/components/DeleteRecord.svelte";
 
   let record: RecordDetails;
   let loading = false;
@@ -51,6 +52,7 @@
       <div class="flex gap-2 py-2">
         <NameEdit recordName={record.name} />
         <StopSharing expiry={record.expiry}/>
+        <DeleteRecord recordId={record.id} />
       </div>
       <p class="text-secondary/50">{record.id}</p>
       <div class="flex justify-between py-2">

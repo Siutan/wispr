@@ -23,7 +23,7 @@
 
 <button class="btn {isExpired ? 'btn-info' : 'btn-error'}" on:click={stopSharing} disabled={loading}>
   {#if loading}
-    <span class="loading loading-sm"></span> Loading...
+    <span class="loading loading-sm text-error"></span> Loading...
   {:else}
     {isExpired ? "Stopped" : "Stop Sharing"}
   {/if}
