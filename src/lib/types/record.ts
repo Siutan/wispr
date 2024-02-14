@@ -1,7 +1,7 @@
 export interface RecordDetails {
   id: string;
   name: string;
-  type: "password" | "markdown"
+  type: "password" | "markdown";
   password: string;
   markdown: string;
   categoryId: string;

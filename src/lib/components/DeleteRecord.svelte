@@ -35,7 +35,7 @@
 <dialog id="delete_modal" class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg text-warning">Warning!</h3>
-    <p class="py-4">Changing the type will remove current password/markdown.</p>
+    <p class="py-4">This will <strong>Delete</strong> the current record, you will not be able to recover this data.</p>
     <p>Do you want to continue?</p>
     <form method="dialog">
       <div class="flex gap-4 py-4">

@@ -51,12 +51,12 @@
     <div class="w-full">
       <div class="flex gap-2 py-2">
         <NameEdit recordName={record.name} />
-        <StopSharing expiry={record.expiry}/>
+        <StopSharing expiry={record.expiry} />
         <DeleteRecord recordId={record.id} />
       </div>
       <p class="text-secondary/50">{record.id}</p>
       <div class="flex justify-between py-2">
-        <DateSelector currentExpiry={record.expiry}/>
+        <DateSelector currentExpiry={record.expiry} />
         <div class="flex flex-col items-end gap-2">
           <TypeSelector selectedType={record.type} />
           <CategorySelector categoryId={record.categoryId} categoryColor={record.categoryColor} />

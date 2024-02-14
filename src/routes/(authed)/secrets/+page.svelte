@@ -2,10 +2,13 @@
   import type { Record } from "pocketbase";
   import { currentUser, pb } from "$lib/pocketbase";
   import RecordItem from "$lib/components/RecordItem.svelte";
-  import { selectedRecord } from "$lib/stores/recordStore";
+  import { selectedRecord, recordList } from "$lib/stores/recordStore";
   import RecordDetail from "$lib/components/RecordDetail.svelte";
+  import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
+  import AddRecord from "$lib/components/AddRecord.svelte";
 
   export let data: Record;
+  recordList.set(data?.records);
 
   function getDateTime(inputDateTime: string): string {
     const dateTime = new Date(inputDateTime);
@@ -21,59 +24,31 @@
     return new Intl.DateTimeFormat("en-US", options).format(dateTime);
   }
 
-  async function addNew() {
-    const newRecord = {
-      user: $currentUser?.id,
-      name: "New Record",
-      type: "password",
-      markdown: "",
-      password: "",
-      file: "",
-      expiry: new Date().toISOString(),
-      created: new Date().toISOString(),
-      updated: "",
-      category: "e5lmrwfkpo0q69l",
-      expand: {
-        category: {
-          cat_name: "Other",
-          cat_color: "bg-pink-200"
-        }
-      }
-    };
-    const sendData = await pb.collection("content").create(newRecord);
-
-    console.log(sendData);
-
-    const record = await pb.collection("content").getOne(sendData.id, ({
-      sort: "-created",
-      expand: "category"
-    }));
-
-    data.records = [record, ...data.records];
-  }
-
   let search: string;
-  // search is the value of the search input field
-  $: searchView = search ? data?.records.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
-    : data?.records;
+  $: searchView = search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()))
+    : $recordList;
+
+  recordList.subscribe(async (value) => {
+    console.log("Record list updated: ", value);
+  });
 </script>
 
-<div class="flex gap-4">
-  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl">
-    <div class="flex items-center rounded-xl bg-base-100 p-2 mb-5">
+<div class="flex-1 grid grid-cols-4 overflow-y-auto p-5 gap-4">
+  <div class="col-span-2 overflow-y-scroll flex flex-col bg-base-200 rounded-xl">
+    <div class="flex items-center bg-base-200 p-5 sticky top-0">
       <input type="text" class="input input-primary input-md w-full" bind:value={search} placeholder="Filter records" />
       <div class="divider divider-horizontal"></div>
-      <button class="btn btn-primary btn-md" on:click={addNew}>Add New</button>
+      <AddRecord/>
     </div>
-    {#if data.records.length > 0}
-      <div class="space-y-4">
+    {#if $recordList.length > 0}
+      <div class="space-y-4 p-5 flex-1">
         {#each searchView as record}
           <RecordItem
             id={record.id}
             name={record.name}
             type={record.type}
-            categoryName={record.expand.category.cat_name}
-            categoryColour={record.expand.category.cat_color}
+            categoryName={record.categoryName}
+            categoryColour={record.categoryColor}
             expiry={getDateTime(record.expiry)}
           />
         {/each}
@@ -82,15 +57,57 @@
       <p>No data</p>
     {/if}
   </div>
-  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl flex-grow">
+  <div class="col-span-2 h-fit p-5 bg-base-200 rounded-xl flex-grow">
     {#if $selectedRecord}
       <RecordDetail />
     {:else }
       <div class="flex h-full flex-col gap-5 justify-center items-center">
         <h1 class="text-2xl font-bold text-primary">Welcome, {$currentUser?.name}</h1>
-        <p class="text-lg text-gray-400">You have {data.records.length} records</p>
+        <p class="text-lg text-gray-400">You have {$recordList.length} records</p>
         <p class="text-lg text-gray-400">Select a record or create a new one to see it here</p>
       </div>
     {/if}
   </div>
 </div>
+
+<style >
+  /*.overflow-y-scroll::-webkit-scrollbar {*/
+  /*  display: none;*/
+  /*}*/
+  /*.overflow-y-scroll {*/
+  /*    -ms-overflow-style: none;*/
+  /*    scrollbar-width: none;*/
+  /*}*/
+
+/*  make the scrollbar invisible until hover*/
+
+
+  .overflow-y-scroll::-webkit-scrollbar {
+    width: 0;
+  }
+  .overflow-y-scroll:hover::-webkit-scrollbar {
+    width: 8px;
+  }
+  .overflow-y-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(196, 196, 196, 0.2);
+    border-radius: 4px;
+  }
+  .overflow-y-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(196, 196, 196, 0.5);
+  }
+  .overflow-y-scroll::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .overflow-y-scroll::-webkit-scrollbar-track:hover {
+    background-color: transparent;
+  }
+  .overflow-y-scroll::-webkit-scrollbar-button {
+    display: none;
+  }
+  .overflow-y-scroll::-webkit-scrollbar-corner {
+    display: none;
+  }
+  .overflow-y-scroll::-webkit-resizer {
+    display: none;
+  }
+</style>
