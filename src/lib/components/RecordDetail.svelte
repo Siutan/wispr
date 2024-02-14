@@ -50,7 +50,7 @@
     <div class="w-full">
       <div class="flex gap-2 py-2">
         <NameEdit recordName={record.name} />
-        <StopSharing/>
+        <StopSharing expiry={record.expiry}/>
       </div>
       <p class="text-secondary/50">{record.id}</p>
       <div class="flex justify-between py-2">

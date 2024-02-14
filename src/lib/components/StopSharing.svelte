@@ -3,19 +3,22 @@
   import { recordDetails, selectedRecord } from "$lib/stores/recordStore";
   import { mapRecordDetails } from "$lib/types/record";
 
-  let isExpired = new Date($recordDetails.expiry) < new Date();
+  export let expiry: string;
+  let isExpired = new Date(expiry) < new Date();
 
   let loading = false;
   async function stopSharing() {
+    if (isExpired) return;
     loading = true;
     const request = await pb.collection("content")
       .update($selectedRecord, { expiry: new Date() }, { expand: "category" });
     const formattedData = mapRecordDetails(request);
     recordDetails.set(formattedData);
+    expiry = formattedData.expiry;
     loading = false;
   }
 
-  $: isExpired = new Date($recordDetails.expiry) < new Date();
+  $: isExpired = new Date(expiry) < new Date();
 </script>
 
 <button class="btn {isExpired ? 'btn-info' : 'btn-error'}" on:click={stopSharing} disabled={loading}>
