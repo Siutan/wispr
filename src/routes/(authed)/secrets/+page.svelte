@@ -82,7 +82,7 @@
       <p>No data</p>
     {/if}
   </div>
-  <div class="w-1/2 p-5 bg-base-200 rounded-xl flex-grow">
+  <div class="w-1/2 h-full p-5 bg-base-200 rounded-xl flex-grow">
     {#if $selectedRecord}
       <RecordDetail />
     {:else }

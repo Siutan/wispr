@@ -30,6 +30,11 @@
 </script>
 
 <div class="flex gap-2">
+  {#if loading}
+    <div class="flex items-center justify-center w-full h-full">
+      <span class="loading loading-infinity loading-lg"></span>
+    </div>
+  {/if}
   <select class="select {categoryColor} font-semibold text-base-100" bind:value={categoryId} on:change={updateCategory}>
     <option value="">Select Category</option>
     {#await loadCategory()}
@@ -40,10 +45,4 @@
       {/each}
     {/await}
   </select>
-
-  {#if loading}
-    <div class="flex items-center justify-center w-full h-full">
-      <span class="loading loading-infinity loading-lg"></span>
-    </div>
-  {/if}
 </div>

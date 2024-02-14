@@ -3,7 +3,7 @@
   import { pb } from "$lib/pocketbase";
   import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
 
-  export let selectedType = "password" || "markdown";
+  export let selectedType: string;
 
   let loading = false;
   let confirmDelete = false;
@@ -23,7 +23,7 @@
   }
 
   function showModal() {
-    const modal = document.getElementById("my_modal");
+    const modal = document.getElementById("type_modal");
     modal?.showModal();
   }
 
@@ -35,19 +35,18 @@
 </script>
 
 <div class="flex gap-2">
-  <select class="select" bind:value={selectedType} on:change={showModal}>
-    <option value="password">Password</option>
-    <option value="markdown">Markdown</option>
-  </select>
-
   {#if loading}
     <div class="flex items-center justify-center w-full h-full">
       <span class="loading loading-infinity loading-lg"></span>
     </div>
   {/if}
+  <select class="select" bind:value={selectedType} on:change={showModal}>
+    <option value="password">Password</option>
+    <option value="markdown">Markdown</option>
+  </select>
 </div>
 
-<dialog id="my_modal" class="modal">
+<dialog id="type_modal" class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg text-warning">Warning!</h3>
     <p class="py-4">Changing the type will remove current password/markdown.</p>

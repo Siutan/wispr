@@ -9,6 +9,7 @@
   import PasswordInput from "$lib/components/PasswordInput.svelte";
   import MarkdownInput from "$lib/components/MarkdownInput.svelte";
   import DateSelector from "$lib/components/DateSelector.svelte";
+  import StopSharing from "$lib/components/StopSharing.svelte";
 
   let record: RecordDetails;
   let loading = false;
@@ -47,12 +48,17 @@
     </div>
   {:else}
     <div class="w-full">
-      <NameEdit recordName={record.name} />
-      <div class="flex gap-2 w-full items-center justify-between">
-        <p class="text-secondary/50">{record.id}</p>
-        <TypeSelector type={record.type} />
-        <CategorySelector categoryId={record.categoryId} categoryColor={record.categoryColor} />
+      <div class="flex gap-2 py-2">
+        <NameEdit recordName={record.name} />
+        <StopSharing/>
+      </div>
+      <p class="text-secondary/50">{record.id}</p>
+      <div class="flex justify-between py-2">
         <DateSelector currentExpiry={record.expiry}/>
+        <div class="flex flex-col items-end gap-2">
+          <TypeSelector selectedType={record.type} />
+          <CategorySelector categoryId={record.categoryId} categoryColor={record.categoryColor} />
+        </div>
       </div>
       <div class="w-full mt-4">
         {#if record.type === "password" }

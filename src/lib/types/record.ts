@@ -1,7 +1,7 @@
 export interface RecordDetails {
   id: string;
   name: string;
-  type: string;
+  type: "password" | "markdown"
   password: string;
   markdown: string;
   categoryId: string;
@@ -29,12 +29,3 @@ export const mapRecordDetails = (data: any): RecordDetails => {
     expiry: data.expiry
   };
 };
-
-export interface Record {
-  id: string;
-  name: string;
-  description: string;
-  date: string;
-  amount: number;
-  categoryId: string;
-}
