@@ -17,4 +17,4 @@
 
 </script>
 
-<button class="btn btn-primary btn-md" on:click={copyUrl}>Copy Url</button>
+<button class="btn btn-primary btn-sm sm:btn-md" on:click={copyUrl}>Copy Url</button>

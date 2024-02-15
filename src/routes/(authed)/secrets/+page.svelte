@@ -31,7 +31,7 @@
 </script>
 
 <div class="flex-1 grid grid-cols-4 overflow-y-scroll p-5 gap-4">
-  <div class="col-span-2 overflow-y-scroll flex flex-col bg-base-200 rounded-xl">
+  <div class="col-span-4 sm:col-span-2 overflow-y-scroll flex flex-col bg-base-200 rounded-xl">
     <div class="flex items-center bg-base-200 p-5 sticky top-0">
       <input type="text" class="input input-primary input-md w-full" bind:value={search} placeholder="Filter records" />
       <div class="divider divider-horizontal"></div>
@@ -54,7 +54,7 @@
       <p>No data</p>
     {/if}
   </div>
-  <div class="col-span-2 h-fit p-5 bg-base-200 rounded-xl flex-grow">
+  <div class="hidden sm:block col-span-2 h-fit p-5 bg-base-200 rounded-xl flex-grow">
     {#if $selectedRecord}
       <RecordDetail />
     {:else }
