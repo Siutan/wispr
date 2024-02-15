@@ -28,12 +28,9 @@
   $: searchView = search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()))
     : $recordList;
 
-  recordList.subscribe(async (value) => {
-    console.log("Record list updated: ", value);
-  });
 </script>
 
-<div class="flex-1 grid grid-cols-4 overflow-y-auto p-5 gap-4">
+<div class="flex-1 grid grid-cols-4 overflow-y-scroll p-5 gap-4">
   <div class="col-span-2 overflow-y-scroll flex flex-col bg-base-200 rounded-xl">
     <div class="flex items-center bg-base-200 p-5 sticky top-0">
       <input type="text" class="input input-primary input-md w-full" bind:value={search} placeholder="Filter records" />
@@ -70,18 +67,7 @@
   </div>
 </div>
 
-<style >
-  /*.overflow-y-scroll::-webkit-scrollbar {*/
-  /*  display: none;*/
-  /*}*/
-  /*.overflow-y-scroll {*/
-  /*    -ms-overflow-style: none;*/
-  /*    scrollbar-width: none;*/
-  /*}*/
-
-/*  make the scrollbar invisible until hover*/
-
-
+<style>
   .overflow-y-scroll::-webkit-scrollbar {
     width: 0;
   }

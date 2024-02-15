@@ -10,7 +10,7 @@
 
 </script>
 
-<div class="fixed top-5 right-5 ">
+<div class="fixed top-5 right-5 z-50">
   <div class="alert alert-{type} flex flex-row gap-2 items-center justify-center"
        transition:fly={{ x: 200, duration: 500 }}>
     <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">

@@ -1,9 +1,9 @@
-import { SECRET_KEY } from "$env/static/private";
+import { PUBLIC_SECRET_KEY } from "$env/static/public";
 import CryptoJS from "crypto-js";
 
-export const encrypt = async (value: string) => {
+export const encrypt = (value: string) => {
   try {
-    const encrypted = CryptoJS.AES.encrypt(value, SECRET_KEY);
+    const encrypted = CryptoJS.AES.encrypt(value, PUBLIC_SECRET_KEY);
     return encrypted.toString();
   } catch (error) {
     console.error("Encryption error:", error);
@@ -11,9 +11,9 @@ export const encrypt = async (value: string) => {
   }
 };
 
-export const decrypt = async (value: string) => {
+export const decrypt = (value: string) => {
   try {
-    const decrypted = CryptoJS.AES.decrypt(value, SECRET_KEY);
+    const decrypted = CryptoJS.AES.decrypt(value, PUBLIC_SECRET_KEY);
     return decrypted.toString(CryptoJS.enc.Utf8);
   } catch (error) {
     console.error("Decryption error:", error);

@@ -23,7 +23,6 @@ export const actions: Actions = {
     }
 
     const response = await pb.collection('urls').create(sendData);
-    console.log(response)
     return {
       success: true,
       data: JSON.parse(JSON.stringify(response)) as Record[]

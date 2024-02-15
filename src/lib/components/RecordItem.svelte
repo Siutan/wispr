@@ -2,6 +2,7 @@
   import { selectedRecord, recordDetails } from "$lib/stores/recordStore";
   import { getDate, isExpired } from "$lib/utils";
   import type { RecordDetails } from "$lib/types/record";
+  import CopyLink from "$lib/components/CopyLink.svelte";
 
   export let id: string;
   export let name: string;
@@ -43,6 +44,6 @@
   </div>
   <div class="flex gap-4 items-center">
     <button class="btn btn-primary btn-md" on:click={handleView}>View</button>
-    <button class="btn btn-primary btn-md">Copy Url</button>
+    <CopyLink {id}/>
   </div>
 </div>
