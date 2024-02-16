@@ -100,12 +100,12 @@
   {#if isExpired}
     <p class="badge badge-outline badge-warning py-3">Expired on: {localExpiry}</p>
     <p class="font-semibold">Set new expiry:</p>
-    <div class="flex gap-2">
-      <button class="btn btn-outline btn-primary" on:click={() => setDuration("15m")}>15 Min</button>
-      <button class="btn btn-outline btn-primary" on:click={() => setDuration("1h")}>1 Hour</button>
-      <button class="btn btn-outline btn-primary" on:click={() => setDuration("1d")}>1 Day</button>
-      <button class="btn btn-outline btn-primary" on:click={() => setDuration("7d")}>1 Week</button>
-      <button class="btn" on:click={toggleExtend}>Custom</button>
+    <div class="grid grid-rows-2 grid-cols-2 sm:flex gap-2">
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("15m")}>15 Min</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("1h")}>1 Hour</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("1d")}>1 Day</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("7d")}>1 Week</button>
+      <button class="btn btn-sm sm:btn-md" on:click={toggleExtend}>Custom</button>
       {#if loading}
         <div class="flex items-center justify-center">
           <span class="loading loading-infinity loading-lg"></span>

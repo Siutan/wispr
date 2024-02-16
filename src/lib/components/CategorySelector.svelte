@@ -35,7 +35,8 @@
       <span class="loading loading-infinity loading-lg"></span>
     </div>
   {/if}
-  <select class="select {categoryColor} font-semibold text-base-100" bind:value={categoryId} on:change={updateCategory}>
+  <select class="select select-sm sm:select-md {categoryColor} font-semibold text-base-100" bind:value={categoryId}
+          on:change={updateCategory}>
     <option value="">Select Category</option>
     {#await loadCategory()}
       <option value="">Loading...</option>

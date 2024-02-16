@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { Record } from "pocketbase";
-  import { currentUser, pb } from "$lib/pocketbase";
+  import { currentUser } from "$lib/pocketbase";
   import RecordItem from "$lib/components/RecordItem.svelte";
   import { selectedRecord, recordList } from "$lib/stores/recordStore";
   import RecordDetail from "$lib/components/RecordDetail.svelte";
-  import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
+  import type { RecordDetails } from "$lib/types/record";
   import AddRecord from "$lib/components/AddRecord.svelte";
+  import { onMount } from "svelte";
+  import { menuStore } from "$lib/stores/menuStore";
 
   export let data: Record;
   recordList.set(data?.records);
@@ -28,33 +30,61 @@
   $: searchView = search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()))
     : $recordList;
 
+  let showMenu = true;
+
+  menuStore.subscribe((value: boolean) => {
+    showMenu = value;
+  });
+
+  function toggleMenu() {
+    menuStore.set(!showMenu);
+  }
+
+  // check if screen is mobile
+  let isMobile = false;
+  onMount(() => {
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    isMobile = mediaQuery.matches;
+    mediaQuery.addEventListener("change", (e) => {
+      isMobile = e.matches;
+      console.log("isMobile");
+    });
+  });
 </script>
 
-<div class="flex-1 grid grid-cols-4 overflow-y-scroll p-5 gap-4">
-  <div class="col-span-4 sm:col-span-2 overflow-y-scroll flex flex-col bg-base-200 rounded-xl">
-    <div class="flex items-center bg-base-200 p-5 sticky top-0">
-      <input type="text" class="input input-primary input-md w-full" bind:value={search} placeholder="Filter records" />
-      <div class="divider divider-horizontal"></div>
-      <AddRecord/>
+<div class="relative flex-1 grid grid-cols-4 overflow-y-scroll p-5 gap-4">
+  <div class="col-span-4 sm:col-span-2 overflow-y-scroll mb-5 bg-base-200 rounded-xl h-fit">
+    <div hidden={!isMobile}>
+      <button class="btn w-full" on:click={toggleMenu}>
+        {showMenu ? "Hide Menu" : "Show Menu"}
+      </button>
     </div>
-    {#if $recordList.length > 0}
-      <div class="space-y-4 p-5 flex-1">
-        {#each searchView as record}
-          <RecordItem
-            id={record.id}
-            name={record.name}
-            type={record.type}
-            categoryName={record.categoryName}
-            categoryColour={record.categoryColor}
-            expiry={getDateTime(record.expiry)}
-          />
-        {/each}
+    <div hidden={!showMenu && isMobile}>
+      <div class="flex items-center bg-base-200 p-5 sticky top-0">
+        <input type="text" class="input input-primary input-md w-full" bind:value={search}
+               placeholder="Filter records" />
+        <div class="divider divider-horizontal"></div>
+        <AddRecord />
       </div>
-    {:else }
-      <p>No data</p>
-    {/if}
+      {#if $recordList.length > 0}
+        <div class="space-y-4 p-5 flex-1">
+          {#each searchView as record}
+            <RecordItem
+              id={record.id}
+              name={record.name}
+              type={record.type}
+              categoryName={record.categoryName}
+              categoryColour={record.categoryColor}
+              expiry={getDateTime(record.expiry)}
+            />
+          {/each}
+        </div>
+      {:else }
+        <p>No data</p>
+      {/if}
+    </div>
   </div>
-  <div class="hidden sm:block col-span-2 h-fit p-5 bg-base-200 rounded-xl flex-grow">
+  <div hidden={showMenu && isMobile} class="col-span-4 sm:col-span-2 h-fit p-5 bg-base-200 rounded-xl mb-5 sm:mb-0">
     {#if $selectedRecord}
       <RecordDetail />
     {:else }
@@ -68,32 +98,40 @@
 </div>
 
 <style>
-  .overflow-y-scroll::-webkit-scrollbar {
-    width: 0;
-  }
-  .overflow-y-scroll:hover::-webkit-scrollbar {
-    width: 8px;
-  }
-  .overflow-y-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(196, 196, 196, 0.2);
-    border-radius: 4px;
-  }
-  .overflow-y-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(196, 196, 196, 0.5);
-  }
-  .overflow-y-scroll::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  .overflow-y-scroll::-webkit-scrollbar-track:hover {
-    background-color: transparent;
-  }
-  .overflow-y-scroll::-webkit-scrollbar-button {
-    display: none;
-  }
-  .overflow-y-scroll::-webkit-scrollbar-corner {
-    display: none;
-  }
-  .overflow-y-scroll::-webkit-resizer {
-    display: none;
-  }
+    .overflow-y-scroll::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .overflow-y-scroll:hover::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .overflow-y-scroll::-webkit-scrollbar-thumb {
+        background-color: rgba(196, 196, 196, 0.2);
+        border-radius: 4px;
+    }
+
+    .overflow-y-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(196, 196, 196, 0.5);
+    }
+
+    .overflow-y-scroll::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    .overflow-y-scroll::-webkit-scrollbar-track:hover {
+        background-color: transparent;
+    }
+
+    .overflow-y-scroll::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    .overflow-y-scroll::-webkit-scrollbar-corner {
+        display: none;
+    }
+
+    .overflow-y-scroll::-webkit-resizer {
+        display: none;
+    }
 </style>

@@ -21,7 +21,7 @@
   $: isExpired = new Date(expiry) < new Date();
 </script>
 
-<button class="btn {isExpired ? 'btn-info btn-outline hover:cursor-context-menu' : 'btn-error'}" on:click={stopSharing} disabled={loading}>
+<button class="btn btn-sm sm:btn-md {isExpired ? 'btn-info btn-outline hover:cursor-context-menu' : 'btn-error'}" on:click={stopSharing} disabled={loading}>
   {#if loading}
     <span class="loading loading-sm text-error"></span> Loading...
   {:else}

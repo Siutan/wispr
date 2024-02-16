@@ -40,7 +40,7 @@
       <span class="loading loading-infinity loading-lg"></span>
     </div>
   {/if}
-  <select class="select" bind:value={selectedType} on:change={showModal}>
+  <select class="select select-sm sm:select-md" bind:value={selectedType} on:change={showModal}>
     <option value="password">Password</option>
     <option value="markdown">Markdown</option>
   </select>

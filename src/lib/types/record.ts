@@ -1,4 +1,3 @@
-import { decrypt } from "$lib/crypt";
 
 export interface RecordDetails {
   id: string;
@@ -16,12 +15,11 @@ export interface RecordDetails {
 }
 
 export const mapRecordDetails = (data: any): RecordDetails => {
-  const decryptedPassword = data.type === "password" ? decrypt(data.password) : "";
   return {
     id: data.id,
     name: data.name,
     type: data.type,
-    password: decryptedPassword,
+    password: data.password,
     markdown: data.markdown,
     categoryId: data.category,
     categoryName: data.expand.category.cat_name,

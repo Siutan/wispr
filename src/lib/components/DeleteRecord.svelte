@@ -24,7 +24,7 @@
   }
 </script>
 
-<button class="btn btn-error" on:click={showModal} disabled={loading}>
+<button class="btn btn-sm sm:btn-md btn-error" on:click={showModal} disabled={loading}>
   {#if loading}
     <span class="loading loading-sm text-error"></span> Deleting...
   {:else}
