@@ -1,6 +1,6 @@
 <script lang="ts">
   import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
-  import ContentCopy from "$lib/ContentCopy.svelte";
+  import ContentCopy from "$lib/components/ContentCopy.svelte";
 
   export let data;
 

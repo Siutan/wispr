@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
-  import UrlCopy from "$lib/UrlCopy.svelte";
+  import { page } from "$app/stores";
+  import UrlCopy from "$lib/components/UrlCopy.svelte";
 
-  export let form;
+  let form = $page.form;
+
+  page.subscribe((value) => {
+    form = value.form;
+  })
+
   let loading = false;
 
   const handleSubmit = () => {

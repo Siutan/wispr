@@ -4,7 +4,7 @@
   import { pb } from "$lib/pocketbase";
   import { page } from "$app/stores";
   import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
-  import Toast from "$lib/Toast.svelte";
+  import Toast from "$lib/components/Toast.svelte";
   import { removeToast, toasts, addToast } from "$lib/stores/toastStore";
 
   $: if ($page?.form?.error) {

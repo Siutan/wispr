@@ -4,7 +4,7 @@
   import { page } from "$app/stores";
   import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
   import { addToast, removeToast, toasts } from "$lib/stores/toastStore";
-  import Toast from "$lib/Toast.svelte";
+  import Toast from "$lib/components/Toast.svelte";
 
   let loading = false;
 

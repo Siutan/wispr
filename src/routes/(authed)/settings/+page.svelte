@@ -1,7 +1,7 @@
 <script>
   import { currentUser } from "$lib/pocketbase";
   import { enhance } from "$app/forms";
-  import ImagePicker from "$lib/ImagePicker.svelte";
+  import ImagePicker from "$lib/components/ImagePicker.svelte";
 </script>
 
 <div>

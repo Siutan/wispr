@@ -1,16 +1,11 @@
 <script lang="ts">
-  import Toast from "$lib/Toast.svelte";
+  import Toast from "$lib/components/Toast.svelte";
   import { addToast, removeToast, toasts } from "$lib/stores/toastStore";
 
   export let value = "";
 
   function copyToClipboard() {
-    const textarea = document.createElement("textarea");
-    textarea.value = value;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
+    navigator.clipboard.writeText(value);
     addToast({
       message: "Copied to clipboard",
       type: "success",

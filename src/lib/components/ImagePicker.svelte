@@ -1,5 +1,5 @@
 <script>
-  import { apiRoutes, currentUser, pb } from "$lib/pocketbase";
+  import { apiRoutes, currentUser, pb } from "$lib/pocketbase.js";
 
   let imageUrl = apiRoutes.profileImg($currentUser);
   let fileInput; // Declare the fileInput variable

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import UserMenu from "$lib/UserMenu.svelte";
+  import UserMenu from "$lib/components/UserMenu.svelte";
 
   $: active = "secrets";
   onMount(() => {

@@ -15,6 +15,8 @@ export const actions: Actions = {
       url: string
     }
 
+    console.log(data)
+
     const user = locals.pb.authStore.model
 
     const sendData = {
@@ -25,7 +27,7 @@ export const actions: Actions = {
     const response = await pb.collection('urls').create(sendData);
     return {
       success: true,
-      data: JSON.parse(JSON.stringify(response)) as Record[]
+      data: structuredClone(response)
     }
   }
 }
