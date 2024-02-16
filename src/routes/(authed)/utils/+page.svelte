@@ -1,16 +1,16 @@
 <script>
-  import PassGen from "$lib/PassGen.svelte";
-  import Markdown from "$lib/Markdown.svelte";
-  import UrlShortener from "$lib/UrlShortener.svelte";
-  export let form
+  import PassGen from "$lib/components/PassGen.svelte";
+  import Markdown from "$lib/components/Markdown.svelte";
+  import UrlShortener from "$lib/components/UrlShortener.svelte";
 
 </script>
 
-<div class="w-full h-full p-5 bg-base-200 rounded-xl mb-20">
-  <div class="flex flex-col gap-10">
-    <PassGen/>
-    <UrlShortener {form}/>
-
-    <Markdown/>
+<div class="">
+  <div class="w-full h-full p-5 bg-base-200 rounded-xl overflow-y-scroll mb-5">
+    <div class="flex flex-col gap-10">
+      <PassGen/>
+      <UrlShortener/>
+      <Markdown/>
+    </div>
   </div>
 </div>

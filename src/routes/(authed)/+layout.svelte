@@ -1,10 +1,10 @@
 <script lang="ts">
   import { currentUser } from "$lib/pocketbase";
   import "../../app.postcss";
-  import UserMenu from "$lib/UserMenu.svelte";
-  import BottomNav from "$lib/BottomNav.svelte";
+  import UserMenu from "$lib/components/UserMenu.svelte";
+  import BottomNav from "$lib/components/BottomNav.svelte";
   import { removeToast, toasts } from "$lib/stores/toastStore";
-  import Toast from "$lib/Toast.svelte";
+  import Toast from "$lib/components/Toast.svelte";
 </script>
 
 {#if $toasts}
@@ -38,7 +38,5 @@
   </div>
 
   <slot />
-  <div class="p-5 sm:p-10">
-  </div>
   <BottomNav />
 </div>

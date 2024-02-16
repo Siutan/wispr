@@ -8,8 +8,9 @@
   import AddRecord from "$lib/components/AddRecord.svelte";
   import { onMount } from "svelte";
   import { menuStore } from "$lib/stores/menuStore";
+  import type { PageData } from "./$types";
 
-  export let data: Record;
+  export let data: PageData;
   recordList.set(data?.records);
 
   function getDateTime(inputDateTime: string): string {
@@ -27,11 +28,10 @@
   }
 
   let search: string;
-  $: searchView = search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()))
+  $: searchView = search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()) || item.categoryName.toLowerCase().includes(search.toLowerCase()) || item.type.toLowerCase().includes(search.toLowerCase()))
     : $recordList;
 
   let showMenu = true;
-
   menuStore.subscribe((value: boolean) => {
     showMenu = value;
   });
@@ -60,7 +60,7 @@
       </button>
     </div>
     <div hidden={!showMenu && isMobile}>
-      <div class="flex items-center bg-base-200 p-5 sticky top-0">
+      <div class="flex items-center bg-base-200 p-5 pb-0 sticky top-0">
         <input type="text" class="input input-primary input-md w-full" bind:value={search}
                placeholder="Filter records" />
         <div class="divider divider-horizontal"></div>
@@ -80,7 +80,7 @@
           {/each}
         </div>
       {:else }
-        <p>No data</p>
+        <p>No Records</p>
       {/if}
     </div>
   </div>
