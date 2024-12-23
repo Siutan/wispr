@@ -1,11 +1,16 @@
 <script lang="ts">
     import "../app.postcss";
+    interface Props {
+        children?: import('svelte').Snippet;
+    }
+
+    let { children }: Props = $props();
 </script>
 
 
 
 <div class="flex justify-center items-center w-screen h-screen dashed-grid-paper bg-base-200 ">
-    <slot />
+    {@render children?.()}
 </div>
 
 <style>

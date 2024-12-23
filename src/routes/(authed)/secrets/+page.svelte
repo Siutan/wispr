@@ -10,7 +10,11 @@
   import { menuStore } from "$lib/stores/menuStore";
   import type { PageData } from "./$types";
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
   recordList.set(data?.records);
 
   function getDateTime(inputDateTime: string): string {
@@ -27,11 +31,11 @@
     return new Intl.DateTimeFormat("en-US", options).format(dateTime);
   }
 
-  let search: string;
-  $: searchView = search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()) || item.categoryName.toLowerCase().includes(search.toLowerCase()) || item.type.toLowerCase().includes(search.toLowerCase()))
-    : $recordList;
+  let search: string = $state();
+  let searchView = $derived(search ? $recordList.filter((item: RecordDetails) => item.name.toLowerCase().includes(search.toLowerCase()) || item.categoryName.toLowerCase().includes(search.toLowerCase()) || item.type.toLowerCase().includes(search.toLowerCase()))
+    : $recordList);
 
-  let showMenu = true;
+  let showMenu = $state(true);
   menuStore.subscribe((value: boolean) => {
     showMenu = value;
   });
@@ -41,7 +45,7 @@
   }
 
   // check if screen is mobile
-  let isMobile = false;
+  let isMobile = $state(false);
   onMount(() => {
     const mediaQuery = window.matchMedia("(max-width: 640px)");
     isMobile = mediaQuery.matches;
@@ -55,7 +59,7 @@
 <div class="relative flex-1 grid grid-cols-4 overflow-y-scroll p-5 gap-4">
   <div class="col-span-4 sm:col-span-2 overflow-y-scroll mb-5 bg-base-200 rounded-xl h-fit">
     <div hidden={!isMobile}>
-      <button class="btn w-full" on:click={toggleMenu}>
+      <button class="btn w-full" onclick={toggleMenu}>
         {showMenu ? "Hide Menu" : "Show Menu"}
       </button>
     </div>

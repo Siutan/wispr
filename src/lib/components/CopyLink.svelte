@@ -1,7 +1,11 @@
 <script lang="ts">
   import { addToast } from "$lib/stores/toastStore";
 
-  export let id: string;
+  interface Props {
+    id: string;
+  }
+
+  let { id }: Props = $props();
 
   function copyUrl() {
 
@@ -17,4 +21,4 @@
 
 </script>
 
-<button class="btn btn-primary btn-sm sm:btn-md" on:click={copyUrl}>Copy Url</button>
+<button class="btn btn-primary btn-sm sm:btn-md" onclick={copyUrl}>Copy Url</button>

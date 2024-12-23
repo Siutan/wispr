@@ -4,11 +4,15 @@
   import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
   import { debounce } from "$lib/utils";
 
-  export let recordName: string;
+  interface Props {
+    recordName: string;
+  }
+
+  let { recordName = $bindable() }: Props = $props();
 
   let editing = false;
-  let loading = false;
-  let errorMessage: string;
+  let loading = $state(false);
+  let errorMessage: string = $state();
   let previousName = recordName;
 
 
@@ -49,7 +53,7 @@
   <input
     class="w-full text-2xl text-primary font-bold bg-transparent border-transparent focus:border-transparent focus:ring-0"
     bind:value={recordName}
-    on:keyup={handleInput}
+    onkeyup={handleInput}
   />
   {#if loading}
     <div class="flex items-center justify-center">

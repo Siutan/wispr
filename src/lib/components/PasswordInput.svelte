@@ -5,9 +5,13 @@
   import { debounce } from "$lib/utils";
   import { encrypt, decrypt } from "$lib/crypt";
 
-  export let password: string;
+  interface Props {
+    password: string;
+  }
 
-  let inputPassword: string;
+  let { password = $bindable() }: Props = $props();
+
+  let inputPassword: string = $state();
 
   if (password === "") {
     password = "";
@@ -16,8 +20,8 @@
   }
 
   let editing = false;
-  let loading = false;
-  let errorMessage = "";
+  let loading = $state(false);
+  let errorMessage = $state("");
   let previousPassword = inputPassword;
 
   function handleInput() {
@@ -47,7 +51,7 @@
     previousPassword = inputPassword;
   }
 
-  let showPassword = false;
+  let showPassword = $state(false);
 
   function setType() {
     showPassword = !showPassword;
@@ -68,9 +72,9 @@
     type="password"
     class="w-full input input-sm sm:input-md input-primary"
     bind:value={inputPassword}
-    on:keyup={handleInput}
+    onkeyup={handleInput}
   />
-  <button class="flex btn btn-outline btn-sm sm:btn-md" on:click={setType}>
+  <button class="flex btn btn-outline btn-sm sm:btn-md" onclick={setType}>
     {showPassword ? "Hide" : "Show"}
   </button>
   {#if loading}

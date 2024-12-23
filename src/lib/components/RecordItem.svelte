@@ -5,12 +5,23 @@
   import CopyLink from "$lib/components/CopyLink.svelte";
   import { menuStore } from "$lib/stores/menuStore";
 
-  export let id: string;
-  export let name: string;
-  export let type: string;
-  export let categoryName: string;
-  export let categoryColour: string;
-  export let expiry: string;
+  interface Props {
+    id: string;
+    name: string;
+    type: string;
+    categoryName: string;
+    categoryColour: string;
+    expiry: string;
+  }
+
+  let {
+    id,
+    name = $bindable(),
+    type = $bindable(),
+    categoryName = $bindable(),
+    categoryColour = $bindable(),
+    expiry = $bindable()
+  }: Props = $props();
 
   function handleView() {
     selectedRecord.set(id);
@@ -45,7 +56,7 @@
     </div>
   </div>
   <div class="flex gap-4 items-start sm:items-center">
-    <button class="btn btn-sm btn-primary sm:btn-md" on:click={handleView}>View</button>
+    <button class="btn btn-sm btn-primary sm:btn-md" onclick={handleView}>View</button>
     <CopyLink {id} />
   </div>
 </div>

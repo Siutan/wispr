@@ -4,13 +4,17 @@
   import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
   import { debounce } from "$lib/utils";
 
-  export let currentExpiry: string;
-  let extendToggle = false;
-  let durationInput = ""; // Default value
-  let errorMessage = "";
-  let loading = false;
+  interface Props {
+    currentExpiry: string;
+  }
 
-  $: isExpired = new Date(currentExpiry) < new Date();
+  let { currentExpiry = $bindable() }: Props = $props();
+  let extendToggle = $state(false);
+  let durationInput = $state(""); // Default value
+  let errorMessage = $state("");
+  let loading = $state(false);
+
+  let isExpired = $derived(new Date(currentExpiry) < new Date());
 
   function toggleExtend() {
     extendToggle = !extendToggle;
@@ -93,7 +97,7 @@
   }
 
   // convert expiry to local time
-  $: localExpiry = new Date(currentExpiry).toLocaleString();
+  let localExpiry = $derived(new Date(currentExpiry).toLocaleString());
 </script>
 
 <div class="flex flex-col gap-2">
@@ -101,11 +105,11 @@
     <p class="badge badge-outline badge-warning py-3">Expired on: {localExpiry}</p>
     <p class="font-semibold">Set new expiry:</p>
     <div class="grid grid-rows-2 grid-cols-2 sm:flex gap-2">
-      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("15m")}>15 Min</button>
-      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("1h")}>1 Hour</button>
-      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("1d")}>1 Day</button>
-      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" on:click={() => setDuration("7d")}>1 Week</button>
-      <button class="btn btn-sm sm:btn-md" on:click={toggleExtend}>Custom</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" onclick={() => setDuration("15m")}>15 Min</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" onclick={() => setDuration("1h")}>1 Hour</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" onclick={() => setDuration("1d")}>1 Day</button>
+      <button class="btn btn-sm sm:btn-md btn-outline btn-primary" onclick={() => setDuration("7d")}>1 Week</button>
+      <button class="btn btn-sm sm:btn-md" onclick={toggleExtend}>Custom</button>
       {#if loading}
         <div class="flex items-center justify-center">
           <span class="loading loading-infinity loading-lg"></span>
@@ -113,7 +117,7 @@
       {/if}
     </div>
     {#if extendToggle}
-      <input type="text" class="input w-fit {errorMessage ? 'input-error' : ''}" bind:value={durationInput} placeholder="e.g., 30m, 2h, 3d" on:input={validateInput}>
+      <input type="text" class="input w-fit {errorMessage ? 'input-error' : ''}" bind:value={durationInput} placeholder="e.g., 30m, 2h, 3d" oninput={validateInput}>
       {#if errorMessage}
         <p class="text-error">{errorMessage}</p>
       {/if}
@@ -121,13 +125,13 @@
   {:else}
     <p class="badge badge-outline badge-primary py-3">Expires on: {localExpiry}</p>
     <p class="label font-bold text-sm">Extend duration:</p>
-    <input name="extendCheckbox" type="checkbox" class="toggle" checked={extendToggle} on:change={toggleExtend}>
+    <input name="extendCheckbox" type="checkbox" class="toggle" checked={extendToggle} onchange={toggleExtend}>
     {#if extendToggle}
       <div class="flex gap-2">
-        <button class="btn btn-outline btn-primary" on:click={() => setDuration("15m")}>15 Min</button>
-        <button class="btn btn-outline btn-primary" on:click={() => setDuration("1h")}>1 Hour</button>
-        <button class="btn btn-outline btn-primary" on:click={() => setDuration("1d")}>1 Day</button>
-        <button class="btn btn-outline btn-primary" on:click={() => setDuration("7d")}>1 Week</button>
+        <button class="btn btn-outline btn-primary" onclick={() => setDuration("15m")}>15 Min</button>
+        <button class="btn btn-outline btn-primary" onclick={() => setDuration("1h")}>1 Hour</button>
+        <button class="btn btn-outline btn-primary" onclick={() => setDuration("1d")}>1 Day</button>
+        <button class="btn btn-outline btn-primary" onclick={() => setDuration("7d")}>1 Week</button>
         {#if loading}
           <div class="flex items-center justify-center">
             <span class="loading loading-infinity loading-lg"></span>

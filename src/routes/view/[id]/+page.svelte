@@ -2,7 +2,7 @@
   import ThemeSwitch from "$lib/themes/ThemeSwitch.svelte";
   import ContentCopy from "$lib/components/ContentCopy.svelte";
 
-  export let data;
+  let { data } = $props();
 
 </script>
 

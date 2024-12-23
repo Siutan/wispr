@@ -4,9 +4,9 @@
   import { addToast } from "$lib/stores/toastStore";
 
   const plugins = [gfmPlugin()];
-  let md: string;
+  let md: string = $state();
 
-  let selectedTab = 1;
+  let selectedTab = $state(1);
 
   function switchTab(tab: number) {
     selectedTab = tab;
@@ -25,8 +25,8 @@
 
 <div class="flex flex-col gap-2 w-full h-full">
   <div role="tablist" class="tabs tabs-boxed gap-2">
-    <button role="tab" class="tab {selectedTab === 1 ? 'tab-active' : ''}" on:click={() => {switchTab(1)}}>Edit</button>
-    <button role="tab" class="tab {selectedTab === 2 ? 'tab-active' : ''}" on:click={() => {switchTab(2)}}>Preview
+    <button role="tab" class="tab {selectedTab === 1 ? 'tab-active' : ''}" onclick={() => {switchTab(1)}}>Edit</button>
+    <button role="tab" class="tab {selectedTab === 2 ? 'tab-active' : ''}" onclick={() => {switchTab(2)}}>Preview
     </button>
   </div>
 
@@ -35,7 +35,7 @@
     <textarea bind:value={md} class="textarea w-full h-96"></textarea>
   {:else}
     <div class="relative w-full h-96 textarea overflow-y-scroll">
-      <button class="btn absolute top-3 right-3" on:click={copyToClipboard}>
+      <button class="btn absolute top-3 right-3" onclick={copyToClipboard}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
              class="lucide lucide-copy">

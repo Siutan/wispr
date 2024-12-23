@@ -5,10 +5,14 @@
   import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
   import type { Record } from "pocketbase";
 
-  export let categoryId: string;
-  export let categoryColor: string;
+  interface Props {
+    categoryId: string;
+    categoryColor: string;
+  }
 
-  let loading = false;
+  let { categoryId = $bindable(), categoryColor = $bindable() }: Props = $props();
+
+  let loading = $state(false);
 
   async function loadCategory() {
     loading = true;
@@ -36,7 +40,7 @@
     </div>
   {/if}
   <select class="select select-sm sm:select-md {categoryColor} font-semibold text-base-100" bind:value={categoryId}
-          on:change={updateCategory}>
+          onchange={updateCategory}>
     <option value="">Select Category</option>
     {#await loadCategory()}
       <option value="">Loading...</option>

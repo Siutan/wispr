@@ -2,7 +2,8 @@
   import { onMount } from "svelte";
   import UserMenu from "$lib/components/UserMenu.svelte";
 
-  $: active = "secrets";
+  let active = $state("secrets");
+  
   onMount(() => {
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
@@ -16,7 +17,7 @@
     }
   });
 
-  let activeTabValue = 1;
+  let activeTabValue = $state(1);
 
   const handleClick = tabValue => () => (activeTabValue = tabValue);
 
@@ -25,11 +26,11 @@
 
 <div class="sm:hidden btm-nav">
   <a href="/secrets" id="btm-nav-secrets" class={`text-secondary bg-base-200 ${activeTabValue === 1 ? 'active' : ''}`}
-     on:click={handleClick(1)}>
+     onclick={handleClick(1)}>
     <span class="font-semibold">Secrets</span>
   </a>
   <a href="/utils" id="btm-nav-utils" class={`text-secondary bg-base-200 ${activeTabValue === 2 ? 'active' : ''}`}
-     on:click={handleClick(2)}>
+     onclick={handleClick(2)}>
     <span>Utils</span>
   </a>
   <div class="btm-nav bg-base-200">

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { applyAction, enhance } from "$app/forms";
   import { PUBLIC_ALLOW_SIGNUP } from "$env/static/public";
   import { pb } from "$lib/pocketbase";
@@ -7,16 +9,18 @@
   import Toast from "$lib/components/Toast.svelte";
   import { removeToast, toasts, addToast } from "$lib/stores/toastStore";
 
-  $: if ($page?.form?.error) {
-    addToast({
-      message: $page?.form?.error,
-      type: "error",
-      dismissable: true,
-      duration: 3000
-    });
-  }
+  run(() => {
+    if ($page?.form?.error) {
+      addToast({
+        message: $page?.form?.error,
+        type: "error",
+        dismissable: true,
+        duration: 3000
+      });
+    }
+  });
 
-  let loading = false;
+  let loading = $state(false);
 </script>
 
 <div class="absolute top-5 left-5">
@@ -33,7 +37,7 @@
   <form
     method="POST"
     class="card"
-    on:submit={() => {loading = true}}
+    onsubmit={() => {loading = true}}
     use:enhance={() => {
     return async ({ result }) => {
       loading = false

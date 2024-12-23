@@ -3,7 +3,7 @@
   import { recordList, newRecord } from "$lib/stores/recordStore";
   import { mapRecordDetails } from "$lib/types/record";
 
-  let loading = false;
+  let loading = $state(false);
 
   async function addNew() {
     loading = true;
@@ -17,7 +17,7 @@
   }
 </script>
 
-<button class="btn btn-primary btn-md" on:click={addNew} disabled={loading}>
+<button class="btn btn-primary btn-md" onclick={addNew} disabled={loading}>
   {#if loading}
     <div class="flex items-center justify-center w-full h-full">
       <span class="loading loading-infinity loading-lg"></span>

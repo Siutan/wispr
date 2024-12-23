@@ -1,10 +1,16 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import Toast from "$lib/components/Toast.svelte";
   import { onMount } from "svelte";
   import { addToast, removeToast, toasts } from "$lib/stores/toastStore";
 
-  export let value = "";
-  export let prefix = "";
+  interface Props {
+    value?: string;
+    prefix?: string;
+  }
+
+  let { value = $bindable(""), prefix = "" }: Props = $props();
   let url = ``;
 
   onMount(() => {
@@ -37,5 +43,5 @@
 
 <div class="flex items-center gap-2">
   <input {value} class="input input-primary cursor-pointer sm:w-96" disabled />
-  <button class="btn btn-accent btn-sm sm:btn-md" on:click|preventDefault={copyToClipboard}>Copy</button>
+  <button class="btn btn-accent btn-sm sm:btn-md" onclick={preventDefault(copyToClipboard)}>Copy</button>
 </div>

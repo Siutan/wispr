@@ -3,13 +3,13 @@
   import { page } from "$app/stores";
   import UrlCopy from "$lib/components/UrlCopy.svelte";
 
-  let form = $page.form;
+  let form = $state($page.form);
 
   page.subscribe((value) => {
     form = value.form;
   })
 
-  let loading = false;
+  let loading = $state(false);
 
   const handleSubmit = () => {
     loading = true;

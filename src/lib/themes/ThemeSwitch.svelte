@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { themes } from "./index";
 
-  let current_theme = ''
+  let current_theme = $state('')
 
   onMount(() => {
     if (typeof window !== 'undefined') {
@@ -33,7 +33,7 @@
     bind:value={current_theme}
     data-choose-theme
     class="select select-bordered select-primary w-full p-2 text-sm capitalize"
-    on:change={set_theme}
+    onchange={set_theme}
   >
     <option value="" disabled={current_theme !== ''}>
       Choose a theme

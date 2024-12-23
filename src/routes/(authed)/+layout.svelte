@@ -5,6 +5,11 @@
   import BottomNav from "$lib/components/BottomNav.svelte";
   import { removeToast, toasts } from "$lib/stores/toastStore";
   import Toast from "$lib/components/Toast.svelte";
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 </script>
 
 {#if $toasts}
@@ -37,6 +42,6 @@
     </div>
   </div>
 
-  <slot />
+  {@render children?.()}
   <BottomNav />
 </div>

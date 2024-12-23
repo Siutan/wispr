@@ -11,8 +11,8 @@
   import StopSharing from "$lib/components/StopSharing.svelte";
   import DeleteRecord from "$lib/components/DeleteRecord.svelte";
 
-  let record: RecordDetails;
-  let loading = false;
+  let record: RecordDetails = $state();
+  let loading = $state(false);
 
   selectedRecord.subscribe(value => {
     loading = true;
@@ -62,14 +62,14 @@
         </div>
       </div>
       <div class="w-full mt-4">
-        {#if record.type === "password" }
+        {#if record.type === "password"}
           <div class="flex gap-2">
             <div class="w-full">
               <p class="text-secondary/50">Password</p>
               <PasswordInput password={record.password} />
             </div>
           </div>
-        {:else if record.type === "markdown" }
+        {:else if record.type === "markdown"}
           <div class="w-full">
             <p class="text-secondary/50">Markdown</p>
             <MarkdownInput md={record.markdown} />

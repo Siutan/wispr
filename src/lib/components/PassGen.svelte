@@ -1,13 +1,13 @@
 <script>
   import { generatePassword } from "$lib/utils.ts";
 
-  let password = "Generate Password";
+  let password = $state("Generate Password");
 
-  let passwordLength = 10;
-  let uppercase = true;
-  let lowercase = true;
-  let numeric = true;
-  let special = true;
+  let passwordLength = $state(10);
+  let uppercase = $state(true);
+  let lowercase = $state(true);
+  let numeric = $state(true);
+  let special = $state(true);
 
   async function generate() {
     password = await generatePassword(passwordLength, uppercase, lowercase, numeric, special);
@@ -48,5 +48,5 @@
       </label>
     </div>
   </div>
-  <button class="btn btn-primary" on:click={generate}>Generate</button>
+  <button class="btn btn-primary" onclick={generate}>Generate</button>
 </div>

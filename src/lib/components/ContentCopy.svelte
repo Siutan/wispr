@@ -2,7 +2,11 @@
   import Toast from "$lib/components/Toast.svelte";
   import { addToast, removeToast, toasts } from "$lib/stores/toastStore";
 
-  export let value = "";
+  interface Props {
+    value?: string;
+  }
+
+  let { value = "" }: Props = $props();
 
   function copyToClipboard() {
     navigator.clipboard.writeText(value);
@@ -24,5 +28,5 @@
 
 <div class="flex items-center gap-2">
   <input type="text" {value} class="input input-primary cursor-pointer sm:w-96" disabled />
-  <button class="btn btn-accent btn-sm sm:btn-md" on:click={copyToClipboard}>Copy</button>
+  <button class="btn btn-accent btn-sm sm:btn-md" onclick={copyToClipboard}>Copy</button>
 </div>

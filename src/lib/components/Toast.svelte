@@ -2,9 +2,13 @@
   import { fly } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
 
-  export let message = "";
-  export let type: "success" | "error" | "warning" | "info" = "success";
-  export let dismissible = true;
+  interface Props {
+    message?: string;
+    type?: "success" | "error" | "warning" | "info";
+    dismissible?: boolean;
+  }
+
+  let { message = "", type = "success", dismissible = true }: Props = $props();
 
   const dispatch = createEventDispatcher();
 
@@ -19,7 +23,7 @@
     </svg>
     <span>{message}</span>
     {#if dismissible}
-      <button class="p-1 rounded-md bg-base-100/10 hover:bg-base-100/25" on:click={() => dispatch('dismiss')}>
+      <button class="p-1 rounded-md bg-base-100/10 hover:bg-base-100/25" onclick={() => dispatch('dismiss')}>
         <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
              viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

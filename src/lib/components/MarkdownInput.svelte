@@ -8,11 +8,15 @@
 
   const plugins = [gfmPlugin()];
 
-  export let md: string;
+  interface Props {
+    md: string;
+  }
 
-  let selectedTab = 1;
+  let { md = $bindable() }: Props = $props();
+
+  let selectedTab = $state(1);
   let editing = false;
-  let loading = false;
+  let loading = $state(false);
   let previousMd = md;
 
   function switchTab(tab: number) {
@@ -44,8 +48,8 @@
 
 <div class="flex flex-col gap-2 w-full h-full">
   <div role="tablist" class="tabs tabs-boxed gap-2">
-    <button role="tab" class="tab {selectedTab === 1 ? 'tab-active' : ''}" on:click={() => {switchTab(1)}}>Edit</button>
-    <button role="tab" class="tab {selectedTab === 2 ? 'tab-active' : ''}" on:click={() => {switchTab(2)}}>Preview</button>
+    <button role="tab" class="tab {selectedTab === 1 ? 'tab-active' : ''}" onclick={() => {switchTab(1)}}>Edit</button>
+    <button role="tab" class="tab {selectedTab === 2 ? 'tab-active' : ''}" onclick={() => {switchTab(2)}}>Preview</button>
     {#if loading}
       <div class="flex items-center justify-center">
         <span class="loading loading-infinity loading-lg"></span>
@@ -55,7 +59,7 @@
 
 
   {#if selectedTab === 1}
-    <textarea bind:value={md} on:keyup={handleInput} class="textarea w-full h-96"></textarea>
+    <textarea bind:value={md} onkeyup={handleInput} class="textarea w-full h-96"></textarea>
   {:else}
     <div class=" w-full h-96 textarea overflow-y-scroll">
       <article class="prose">

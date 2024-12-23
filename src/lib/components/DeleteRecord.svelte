@@ -1,10 +1,16 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { pb } from "$lib/pocketbase";
   import { resetRecordStore } from "$lib/stores/recordStore";
 
-  export let recordId: string;
-  let loading = false;
-  let confirmDelete = false;
+  interface Props {
+    recordId: string;
+  }
+
+  let { recordId }: Props = $props();
+  let loading = $state(false);
+  let confirmDelete = $state(false);
 
   function showModal() {
     const modal = document.getElementById("delete_modal");
@@ -18,13 +24,15 @@
     loading = false;
   }
 
-  $: if (confirmDelete) {
-    deleteRecord();
-    confirmDelete = false;
-  }
+  run(() => {
+    if (confirmDelete) {
+      deleteRecord();
+      confirmDelete = false;
+    }
+  });
 </script>
 
-<button class="btn btn-sm sm:btn-md btn-error" on:click={showModal} disabled={loading}>
+<button class="btn btn-sm sm:btn-md btn-error" onclick={showModal} disabled={loading}>
   {#if loading}
     <span class="loading loading-sm text-error"></span> Deleting...
   {:else}
@@ -40,7 +48,7 @@
     <form method="dialog">
       <div class="flex gap-4 py-4">
         <button class="btn btn-primary">No</button>
-        <button class="btn btn-error" on:click={() => confirmDelete = true}>Yes</button>
+        <button class="btn btn-error" onclick={() => confirmDelete = true}>Yes</button>
       </div>
     </form>
   </div>

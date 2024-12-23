@@ -1,12 +1,18 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { selectedRecord, recordDetails } from "$lib/stores/recordStore";
   import { pb } from "$lib/pocketbase";
   import { mapRecordDetails, type RecordDetails } from "$lib/types/record";
 
-  export let selectedType: string;
+  interface Props {
+    selectedType: string;
+  }
 
-  let loading = false;
-  let confirmDelete = false;
+  let { selectedType = $bindable() }: Props = $props();
+
+  let loading = $state(false);
+  let confirmDelete = $state(false);
 
   async function updateType() {
     loading = true;
@@ -27,10 +33,12 @@
     modal?.showModal();
   }
 
-  $: if (confirmDelete) {
-    updateType();
-    confirmDelete = false;
-  }
+  run(() => {
+    if (confirmDelete) {
+      updateType();
+      confirmDelete = false;
+    }
+  });
 
 </script>
 
@@ -40,7 +48,7 @@
       <span class="loading loading-infinity loading-lg"></span>
     </div>
   {/if}
-  <select class="select select-sm sm:select-md" bind:value={selectedType} on:change={showModal}>
+  <select class="select select-sm sm:select-md" bind:value={selectedType} onchange={showModal}>
     <option value="password">Password</option>
     <option value="markdown">Markdown</option>
   </select>
@@ -54,7 +62,7 @@
     <form method="dialog">
       <div class="flex gap-4 py-4">
         <button class="btn btn-primary">No</button>
-        <button class="btn btn-error" on:click={() => confirmDelete = true}>Yes</button>
+        <button class="btn btn-error" onclick={() => confirmDelete = true}>Yes</button>
       </div>
     </form>
   </div>
