@@ -12,13 +12,13 @@ export const load: PageServerLoad = (async ({ params }) => {
   const expiry = new Date(contentRecord.expiry);
 
   if (expiry < now) {
-    throw error(404, {
-      message: "Not found"
-    });
+    error(404, {
+            message: "Not found"
+          });
   } else if (!contentRecord) {
-    throw error(404, {
-      message: "Not found"
-    });
+    error(404, {
+            message: "Not found"
+          });
   }
 
   if (contentRecord.type === "password") {

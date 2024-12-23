@@ -5,7 +5,7 @@ import type { Record } from "pocketbase";
 
 export const load = (({ locals }) => {
   if (!locals.pb.authStore.isValid) {
-    throw redirect(303, '/login?origin=utils')
+    redirect(303, '/login?origin=utils');
   }
 }) satisfies PageServerLoad
 

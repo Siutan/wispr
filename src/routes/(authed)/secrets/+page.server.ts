@@ -6,7 +6,7 @@ import { mapCategory } from "$lib/types/category";
 
 export const load: PageServerLoad = (async ({ locals }) => {
   if (!locals.pb.authStore.isValid) {
-    throw redirect(303, "/login?origin=secret");
+    redirect(303, "/login?origin=secret");
   }
 
   return {

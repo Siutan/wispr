@@ -4,7 +4,7 @@ import { pb } from "$lib/pocketbase";
 
 export const load = (async ({ locals, params }) => {
   if (!locals.pb.authStore.isValid) {
-    throw redirect(303, "/login?origin=utils");
+    redirect(303, "/login?origin=utils");
   }
 
   const id = params.id;
@@ -13,5 +13,5 @@ export const load = (async ({ locals, params }) => {
 
   const redirectUrl = record.url;
 
-  throw redirect(303, redirectUrl);
+  redirect(303, redirectUrl);
 }) satisfies PageServerLoad;

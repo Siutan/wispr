@@ -11,7 +11,7 @@ export const actions: Actions = {
     };
 
     if (PUBLIC_ALLOW_SIGNUP !== "true") {
-      throw redirect(303, "/login");
+      redirect(303, "/login");
     }
 
     try {
@@ -24,6 +24,6 @@ export const actions: Actions = {
       throw e;
     }
 
-    throw redirect(303, "/");
+    redirect(303, "/");
   }
 };

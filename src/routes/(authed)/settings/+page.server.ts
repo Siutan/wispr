@@ -3,7 +3,7 @@ import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = (async ({ locals }) => {
   if (!locals.pb.authStore.isValid) {
-    throw redirect(303, "/login?origin=settings");
+    redirect(303, "/login?origin=settings");
   }
 }) satisfies PageServerLoad;
 
@@ -14,7 +14,7 @@ export const actions: Actions = {
       await user.delete();
       locals.pb.authStore.clear()
       locals.user = null
-      throw redirect(303, "/login");
+      redirect(303, "/login");
     }
   }
 }

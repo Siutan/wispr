@@ -18,6 +18,6 @@ export const actions: Actions = {
       return fail(400, { error: 'Invalid Email or Password.', success: false, email: data.email })
     }
 
-    throw redirect(303, '/secrets')
+    redirect(303, '/secrets');
   },
 }
